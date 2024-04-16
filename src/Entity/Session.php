@@ -35,6 +35,10 @@ class Session
     // table associative entre Session et Stagiaire, chaque session a une collection de stagiaires
     private Collection $inscription;
 
+    #[ORM\ManyToOne(inversedBy: 'sessions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Formation $formation = null;
+
     public function __construct()
     {
         $this->inscription = new ArrayCollection();
@@ -113,6 +117,18 @@ class Session
     public function removeInscription(Stagiaire $inscription): static
     {
         $this->inscription->removeElement($inscription);
+
+        return $this;
+    }
+
+    public function getFormation(): ?Formation
+    {
+        return $this->formation;
+    }
+
+    public function setFormation(?Formation $formation): static
+    {
+        $this->formation = $formation;
 
         return $this;
     }
