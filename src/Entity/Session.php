@@ -39,9 +39,16 @@ class Session
     #[ORM\JoinColumn(nullable: false)]
     private ?Formation $formation = null;
 
+    /**
+     * @var Collection<int, Programme>
+     */
+    #[ORM\OneToMany(targetEntity: Programme::class, mappedBy: 'session')]
+    private Collection $programmes;
+
     public function __construct()
     {
         $this->inscription = new ArrayCollection();
+        $this->programmes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -132,4 +139,40 @@ class Session
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Programme>
+     */
+    public function getProgrammes(): Collection
+    {
+        return $this->programmes;
+    }
+
+    public function addProgramme(Programme $programme): static
+    {
+        if (!$this->programmes->contains($programme)) {
+            $this->programmes->add($programme);
+            $programme->setSession($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProgramme(Programme $programme): static
+    {
+        if ($this->programmes->removeElement($programme)) {
+            // set the owning side to null (unless already changed)
+            if ($programme->getSession() === $this) {
+                $programme->setSession(null);
+            }
+        }
+
+        return $this;
+    }
+
+    //probablement à changer
+    public function __toString(){
+        return $this->formation;
+    }
+
 }

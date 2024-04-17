@@ -1,0 +1,17 @@
+{# detail d'un stagiaire  #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail d'un stagiaire{% endblock %}
+
+{% block body %}
+
+<h1>Détail d'un stagiaire</h1>
+
+<p>{{stagiaire}}</p>
+<p>Sexe: {{stagiaire.sexe}}</p>
+<p>Ville: {{stagiaire.ville}}</p>
+<p>Date de naissance: {{stagiaire.dateNaissance | date("d.m.Y")}}</p>
+
+
+{% endblock %}
