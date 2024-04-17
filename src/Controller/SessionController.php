@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Session;
+use App\Entity\Programme;
+use App\Repository\ModuleRepository;
 use App\Repository\SessionRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -20,4 +23,15 @@ class SessionController extends AbstractController
             'sessions' => $sessions
         ]);
     }
+
+    //detail d'une session
+    #[Route('/session/{id}', name: 'show_session')]
+    public function show(Session $session): Response
+    // public function show(Session $session, SessionRepository $sessionRepository, ModuleRepository $moduleRepository, ProgrammeRepository $programmeRepository): Response
+    {
+        return $this->render('session/show.html.twig', [
+            'session' => $session
+        ]);
+    }
+
 }

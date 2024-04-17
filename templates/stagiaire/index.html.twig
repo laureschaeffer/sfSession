@@ -5,28 +5,33 @@
 {% block title %}Liste des stagiaires{% endblock %}
 
 {% block body %}
-<h1>Liste des stagiaires</h1>
 
-<table class="table">
-    <thead class="thead-dark">
-      <tr>
-        <th scope="col">Prénom</th>
-        <th scope="col">Nom</th>
-        <th scope="col">Téléphone</th>
-        <th scope="col">Ville</th>
-      </tr>
-    </thead>
-    <tbody>
-        
-        {% for stagiaire in stagiaires %}
-        <tr>
-            <td>{{ stagiaire.prenom }}</td>
-            <td>{{ stagiaire.nom }}</td>
-            <td>{{ stagiaire.telephone }}</td>
-            <td>{{ stagiaire.ville }}</td>
+<section id="stagiaires">
+
+  <h1>Liste des stagiaires</h1>
+  
+  <table class="table table-striped">
+      <thead>
+        <tr class="table-dark">
+          <th scope="col">Prénom</th>
+          <th scope="col">Nom</th>
+          <th scope="col">Téléphone</th>
+          <th scope="col">Ville</th>
         </tr>
-        
-        {% endfor %}
-    </tbody>
-</table>
+      </thead>
+      <tbody>
+          
+          {% for stagiaire in stagiaires %}
+          <tr>
+              <td><a href=" {{ path('show_stagiaire', {'id': stagiaire.id})}}  ">{{ stagiaire.prenom }}</a></td>
+              <td>{{ stagiaire.nom }}</td>
+              <td>{{ stagiaire.telephone }}</td>
+              <td>{{ stagiaire.ville }}</td>
+          </tr>
+          
+          {% endfor %}
+      </tbody>
+  </table>
+
+</section>
 {% endblock %}

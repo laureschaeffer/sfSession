@@ -13,6 +13,19 @@
         {% endblock %}
     </head>
     <body>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="{{ path('app_formation')}}">Formations</a></li>
+                    <li><a href="{{ path('app_session')}}">Sessions</a></li>
+                    <li><a href="{{ path('app_module')}}">Modules</a></li>
+                    <li><a href="{{ path('app_categorie')}}">Catégories</a></li>
+                    <li><a href="{{ path('app_stagiaire')}}">Stagiaires</a></li>
+
+                </ul>
+            </nav>
+        </header>
+
         {% block body %}{% endblock %}
     </body>
 </html>

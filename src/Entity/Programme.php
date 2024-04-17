@@ -65,6 +65,12 @@ class Programme
 
     //toString probablement à changer
     public function __toString(){
-        return $this->module. " : ".$this->duree;
+        return $this->session;
+    }
+
+    //infos pour detail de la session
+    public function getInfo() : ?string 
+    {
+        return $this->module . " : " .$this->duree;
     }
 }

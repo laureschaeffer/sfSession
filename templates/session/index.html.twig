@@ -5,31 +5,34 @@
 
 {% block body %}
 
-
-    <h1>Liste des sessions</h1>
-    <table class="table table-striped">
-        <thead>
-          <tr class="table-danger">
-            <th scope="col">Session</th>
-            <th scope="col">Début</th>
-            <th scope="col">Fin</th>
-            <th scope="col">Places totales</th>
-            <th scope="col">Places prises</th>
-            <th scope="col">Places restantes</th>
+<section id="sessions">
+  <h1>Liste des sessions de formation</h1>
+  <table class="table table-striped">
+      <thead>
+        <tr class="table-danger">
+          <th scope="col">Formation</th>
+          <th scope="col">Début</th>
+          <th scope="col">Fin</th>
+          <th scope="col">Places totales</th>
+          <th scope="col">Places prises</th>
+          <th scope="col">Places restantes</th>
+        </tr>
+      </thead>
+      <tbody>
+  {% for session in sessions %}
+          <tr>
+            
+              <td><a href="{{ path('show_session', {'id': session.id}) }}">{{session}}</a></td>
+              <td>{{ session.dateDebut | date("d.m.Y") }}</td>
+              <td>{{ session.dateFin | date("d.m.Y") }}</td>
+              <td>{{ session.nbPlace }}</td>
+              <td>Places prises</td>
+              <td>Places restantes</td>
           </tr>
-        </thead>
-        <tbody>
-    {% for session in sessions %}
-            <tr>
-                <td>{{session}} </td>
-                <td>{{ session.dateDebut | date("d.m.Y") }}</td>
-                <td>{{ session.dateFin | date("d.m.Y") }}</td>
-                <td>{{ session.nbPlace }}</td>
-                <td>Places prises</td>
-                <td>Places restantes</td>
-            </tr>
-    {% endfor %}
-        </tbody>
-    </table>
+  {% endfor %}
+      </tbody>
+  </table>
+</section>
+
 
 {% endblock %}

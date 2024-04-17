@@ -175,4 +175,11 @@ class Session
         return $this->formation;
     }
 
+    //duree d'une session
+    public function getDuree()
+    {
+        $interval = $this->dateFin->diff($this->dateDebut);
+        return $interval->format("%m");
+    }
+
 }

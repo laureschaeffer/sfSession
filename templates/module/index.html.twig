@@ -1,0 +1,35 @@
+{# liste des modules  #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des modules{% endblock %}
+
+{% block body %}
+
+<section id="modules">
+    <h1>Liste des modules</h1>
+
+    <table class="table table-striped">
+        <thead>
+          <tr class="table-info">
+            <th scope="col">#</th>
+            <th scope="col">Module</th>
+            <th scope="col">Categorie</th>
+    
+          </tr>
+        </thead>
+        <tbody>
+    {% set i = 1 %}
+    {% for module in modules %}
+    <tr>
+        <td>{{i}} </td>
+        {% set i = i + 1 %}
+        <td>{{ module }}</td>
+        <td>{{ module.categorie }}</td>
+    
+    </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

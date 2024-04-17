@@ -21,7 +21,7 @@ class StagiaireController extends AbstractController
     }
 
     //detail d'un stagiaire
-    #[Route('/stagiaire/{id}', name: 'show_employe')]
+    #[Route('/stagiaire/{id}', name: 'show_stagiaire')]
     public function show(Stagiaire $stagiaire): Response
     {
         return $this->render('stagiaire/show.html.twig', [

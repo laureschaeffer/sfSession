@@ -6,26 +6,31 @@
 
 {% block body %}
 
-<h1>Liste des formations</h1>
+<section id="formations">
 
-<table class="table table-striped">
-    <thead>
-      <tr class="table-primary">
-        <th scope="col">#</th>
-        <th scope="col">Formation</th>
-
-      </tr>
-    </thead>
-    <tbody>
-{% set i = 1 %}
-{% for formation in formations %}
-<tr>
-    <td>{{i}} </td>
-    {% set i = i + 1 %}
-            <td>{{ formation }}</td>
-
+  <h1>Liste des formations</h1>
+  
+  <table class="table table-striped">
+      <thead>
+        <tr class="table-primary">
+          <th scope="col">#</th>
+          <th scope="col">Formation</th>
+  
         </tr>
-{% endfor %}
-    </tbody>
-</table>
+      </thead>
+      <tbody>
+  {% set i = 1 %}
+  {% for formation in formations %}
+  <tr>
+      <td>{{i}} </td>
+      {% set i = i + 1 %}
+              <td>{{ formation }}</td>
+  
+          </tr>
+  {% endfor %}
+      </tbody>
+  </table>
+
+</section>
+
 {% endblock %}

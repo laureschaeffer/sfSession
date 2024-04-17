@@ -6,12 +6,26 @@
 
 {% block body %}
 
-<h1>Détail d'un stagiaire</h1>
+<section id="stagiaire-detail">
+    <h1>Détail d'un stagiaire</h1>
+    
+    <p>{{stagiaire}}</p>
+    <p>Sexe: {{stagiaire.sexe}}</p>
+    <p>Ville: {{stagiaire.ville}}</p>
+    <p>Date de naissance: {{stagiaire.dateNaissance | date("d.m.Y")}}</p>
+    <p>Téléphone: {{ stagiaire.telephone }}</p>
+    <p>Mail: {{ stagiaire.mail }}</p>
+    
+    <h2>Sessions prévues</h2>
+    
+    {# collections de sessions  #}
+    {% for session in stagiaire.sessions %}
+    
+        <p><a href="{{ path('show_session', {'id': session.id}) }}">{{session}}</a> ({{session.dateDebut | date("d-m-Y")}} au {{session.dateFin | date("d-m-Y")}} )</p>
+        
+    {% endfor %}
 
-<p>{{stagiaire}}</p>
-<p>Sexe: {{stagiaire.sexe}}</p>
-<p>Ville: {{stagiaire.ville}}</p>
-<p>Date de naissance: {{stagiaire.dateNaissance | date("d.m.Y")}}</p>
+</section>
 
 
 {% endblock %}
