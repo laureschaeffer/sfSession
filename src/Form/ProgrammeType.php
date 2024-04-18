@@ -34,7 +34,7 @@ class ProgrammeType extends AbstractType
                 ],
                 'label' => 'Durée en jours'
             ])
-            ->add('Valider', SubmitType::class)
+            //le submit est dans SessionType
         ;
     }
 

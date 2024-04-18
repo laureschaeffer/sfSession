@@ -23,12 +23,8 @@ class SessionType extends AbstractType
             ->add('nbPlace', IntegerType::class, [
                 'attr' => [
                     'class' => 'form-control'
-                ]
-            ])
-            ->add('nbPlace', IntegerType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ]
+                ],
+                'label' => 'Nombre de places'
             ])
             ->add('dateDebut', DateType::class, [
                 'widget' => 'single_text', 
@@ -50,13 +46,9 @@ class SessionType extends AbstractType
                 //va activer un data prototype qui sera un attribut html qu'on pourra manipuler en js
                 'allow_add' => true, //ajoute plusieurs programmes
                 'allow_delete' => true,
-                'by_reference' => false
+                'by_reference' => false //pour éviter un mapping false, obligatoire car Session n'a pas de SetProgramme, mais Programme a setSession
+                // Programme est propriétaire de la relation
             ])
-            // ->add('inscription', EntityType::class, [
-            //     'class' => Stagiaire::class,
-            //     'choice_label' => 'id',
-            //     'multiple' => true,
-            // ])
             ->add('formation', EntityType::class, [
                 'class' => Formation::class,
                 // 'choice_label' => 'id',

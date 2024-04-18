@@ -23,6 +23,7 @@
     <p>Durée: {{ session.duree }} mois</p>
     <p>{{ session.nbPlace }} places restantes</p>
     
+    <p><a href="{{ path('edit_session', {'id': session.id}) }}">Modifier</a></p>
     {# stagiaires inscrits #}
     <h2>Stagiaires inscrits</h2>
     <table class="table table-striped">

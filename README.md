@@ -4,7 +4,7 @@ Projet qui gère des sessions de formations pour les admin d'un centre de format
 
 ### Utilisation : 
 
-Symfony, PHP, twig, DQL, bootstrap, heidisql
+Symfony, PHP, twig, javascript, DQL, bootstrap, heidisql
 
 
 **Mise en place**  

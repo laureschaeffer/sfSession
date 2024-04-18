@@ -7,8 +7,8 @@
 
 {% block body %}
 
-{# s'il recoit edit alors c'est une modification #}
-{% if edit %}
+{# s'il recoit sessionId alors c'est une modification #}
+{% if sessionId %}
        <h1>Modifier la session</h1>
        
 {% else %}
@@ -17,25 +17,63 @@
 {% endif %}
 
 {# recupere le formulaire automatiquement  #}
-{# {{ form(formAddSession) }} #}
+{# {{ form(form) }} #}
 
 {# possibilité de detailler #}
 
-{{ form_start(formAddSession) }}
+{{ form_start(form) }}
 <div class="row">
-    {{ form_row(formAddSession.formation) }}
+    {{ form_row(form.formation) }}
     <div class="col-sm">
-        {{ form_row(formAddSession.dateDebut) }}
+        {{ form_row(form.dateDebut) }}
     </div>
     <div class="col-sm">
-        {{ form_row(formAddSession.dateFin) }}
+        {{ form_row(form.dateFin) }}
     </div>
-    {{ form_row(formAddSession.nbPlace) }}
+    {{ form_row(form.nbPlace) }}
+
+    {# construire dynamiquement la liste des modules existants à partir de Programme  #}
+    <h2>Programme de la session :</h2>
+
+    <div class="form-group row ">
+        <div class="col-form-label col-sm-2">&nbsp;</div>
+            <div id="programme-fields-list" class="col-sm-10 remove-collection-widget"
+                data-prototype="{{ form_widget(form.programmes.vars.prototype)|e }}"
+                data-session="{{sessionId}}"
+                data-widget-tags="{{ '<p></p>'|e }}"
+                data-widget-counter="{{ form.programmes|length }}">
+                {% for programmeField in form.programmes %}
+                <p>
+                    {{ form_errors(programmeField) }}
+                    {{ form_widget(programmeField, {'attr': {'class': 'borders'}}) }}
+                </p>
+                {% endfor %}
+            </div>
+        </div>
+        <div>
+        {# <div class="form-group row flex-action"> #}
+            <button type="button" 
+            {# class="add-another-collection-widget button" #}
+            data-list-selector="#programme-fields-list">+</button>
+        </div>
+    </div>
+         
+        {# empêche l'apparition d'une légende "programmes", si la collection est vide (en cas de création d'une nouvelle session) #}
+        {% do form.programmes.setRendered %}
+
+    
+    {# <div>
+        <div id="programme-fields-list"
+            data-prototype="{{ form_widget(form.programmes.vars.prototype)|e }}"
+            data-session="{{ sessionId }}">
+
+        </div>
+    </div> #}
 
 </div>
 
- {{ form_row(formAddSession.Valider) }}
-{{ form_end(formAddSession) }}
+ {{ form_row(form.Valider) }}
+{{ form_end(form) }}
 
 
 {% endblock %}

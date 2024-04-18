@@ -58,50 +58,50 @@ class SessionController extends AbstractController
 
         //renvoie la vue
         return $this->render('session/new.html.twig', [
-            'formAddSession' => $form,
+            'form' => $form,
             //s'il reçoit l'id, il le renvoie et donc on est sur la modification, sinon il renvoie false et on est sur l'ajout
-            'edit' => $session->getId()
+            'sessionId' => $session->getId()
         ]);
 
     }
 
     // crée un programme ou modifie un existant
-    #[Route('/programme/new', name: 'new_programme')] //pour ajout
-    #[Route('/programme/{id}/edit', name: 'edit_programme')] //pour modif
-    public function new_editProgramme(Programme $programme = null, Request $request, EntityManagerInterface $entityManager): Response 
-    {
-        //si le programme n'a pas été trouvé, on en crée un nouveau, sinon ça veut dire qu'on est sur un formulaire de modification
-        if (!$programme) {
-            $programme = new Programme();
-        }
+    // #[Route('/programme/new', name: 'new_programme')] //pour ajout
+    // #[Route('/programme/{id}/edit', name: 'edit_programme')] //pour modif
+    // public function new_editProgramme(Programme $programme = null, Request $request, EntityManagerInterface $entityManager): Response 
+    // {
+    //     //si le programme n'a pas été trouvé, on en crée un nouveau, sinon ça veut dire qu'on est sur un formulaire de modification
+    //     if (!$programme) {
+    //         $programme = new Programme();
+    //     }
             
             
-        // crée le formulaire
-        $form = $this->createForm(ProgrammeType::class, $programme);
+    //     // crée le formulaire
+    //     $form = $this->createForm(ProgrammeType::class, $programme);
                     
-        //prend en charge
-        $form->handleRequest($request);
+    //     //prend en charge
+    //     $form->handleRequest($request);
                     
             
-        if ($form->isSubmitted() && $form->isValid()) {
+    //     if ($form->isSubmitted() && $form->isValid()) {
                         
-            // récupère les données du formulaire
-            $programme = $form->getData();
+    //         // récupère les données du formulaire
+    //         $programme = $form->getData();
             
-            $entityManager->persist($programme); //prepare
-            $entityManager->flush(); //execute
+    //         $entityManager->persist($programme); //prepare
+    //         $entityManager->flush(); //execute
             
-            // redirige vers la session
-            return $this->redirectToRoute('');
-            }
+    //         // redirige vers la session
+    //         return $this->redirectToRoute('');
+    //         }
                     
-            //renvoie la vue
-        return $this->render('programme/new.html.twig', [
-            'formAddProgramme' => $form,
-            //s'il reçoit l'id, il le renvoie et donc on est sur la modification, sinon il renvoie false et on est sur l'ajout
-            'edit' => $programme->getId()
-            ]);
-    }
+    //         //renvoie la vue
+    //     return $this->render('programme/new.html.twig', [
+    //         'formAddProgramme' => $form,
+    //         //s'il reçoit l'id, il le renvoie et donc on est sur la modification, sinon il renvoie false et on est sur l'ajout
+    //         'edit' => $programme->getId()
+    //         ]);
+    // }
 
     //detail d'une session
     #[Route('/session/{id}', name: 'show_session')]

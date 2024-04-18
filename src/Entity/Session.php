@@ -42,7 +42,8 @@ class Session
     /**
      * @var Collection<int, Programme>
      */
-    #[ORM\OneToMany(targetEntity: Programme::class, mappedBy: 'session')]
+    #[ORM\OneToMany(targetEntity: Programme::class, mappedBy: 'session', cascade: ['persist'],  orphanRemoval: true)]
+    #[ORM\OrderBy(["module" => "ASC"])] //rajout d'un order by à la collection
     private Collection $programmes;
 
     public function __construct()
