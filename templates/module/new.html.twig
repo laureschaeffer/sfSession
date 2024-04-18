@@ -1,0 +1,32 @@
+{# formulaire d'ajout ou modification d'un module #}
+
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter module{% endblock %}
+
+{% block body %}
+
+{# s'il recoit edit alors c'est une modification #}
+{% if edit %}
+       <h1>Modifier le module</h1>
+       
+{% else %}
+   <h1>Ajouter un module</h1>
+{% endif %}
+
+
+{# recupere le formulaire automatiquement  #}
+{{ form(formAddModule) }}
+
+{# possibilité de detailler #}
+
+{# {{ form_start(formAddCategorie) }}
+
+     {{ form_row(formAddCategorie.nom) }}
+
+ {{ form_row(formAddCategorie.Valider) }}
+{{ form_end(formAddCategorie) }} #}
+
+
+{% endblock %}

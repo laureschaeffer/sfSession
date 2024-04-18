@@ -24,12 +24,14 @@
     <tr>
         <td>{{i}} </td>
         {% set i = i + 1 %}
-        <td>{{ module }}</td>
+        <td>{{ module }} <a class="btn btn-warning" href="{{ path('edit_module', {'id': module.id}) }}">Modifier</a></td>
         <td>{{ module.categorie }}</td>
     
     </tr>
     {% endfor %}
         </tbody>
     </table>
+
+    <a href="{{ path('new_module') }}">Ajouter</a>
 </section>
 {% endblock %}

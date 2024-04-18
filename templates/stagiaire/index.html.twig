@@ -27,11 +27,13 @@
               <td>{{ stagiaire.nom }}</td>
               <td>{{ stagiaire.telephone }}</td>
               <td>{{ stagiaire.ville }}</td>
+              <td><a href="{{ path('edit_stagiaire', {'id': stagiaire.id}) }}">Modifier</a></td>
           </tr>
           
           {% endfor %}
       </tbody>
   </table>
 
+  <a href="{{ path('new_stagiaire') }}">Ajouter un stagiaire</a>
 </section>
 {% endblock %}

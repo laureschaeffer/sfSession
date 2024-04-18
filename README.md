@@ -6,6 +6,10 @@ Projet qui gère des sessions de formations pour les admin d'un centre de format
 
 Symfony, PHP, twig, DQL, bootstrap, heidisql
 
+
+**Mise en place**  
+Lors du téléchargement, en plus d'installer composer, scoop et symfony, mettre cette ligne dans l'invite de commande pour avoir le bon dossier 'vendor'
+
 ``` php
-Les données des enregistrements dans la bdd sont inventées
+composer install
 ```

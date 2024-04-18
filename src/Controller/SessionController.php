@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Session;
 use App\Entity\Programme;
+use App\Form\SessionType;
 use App\Repository\ModuleRepository;
 use App\Repository\SessionRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,6 +25,43 @@ class SessionController extends AbstractController
         return $this->render('session/index.html.twig', [
             'sessions' => $sessions
         ]);
+    }
+
+    //crée une nouvelle session ou modifie une existante
+    #[Route('/session/new', name: 'new_session')] //pour ajout
+    #[Route('/session/{id}/edit', name: 'edit_session')] //pour modif
+    public function new_edit(Session $session =null, SessionRepository $sessionRepository, Request $request, EntityManagerInterface $entityManager)
+    {
+        //si le session n'a pas été trouvé, on en crée un nouveau, sinon ça veut dire qu'on est sur un formulaire de modification
+        if(!$session){
+            $session = new Session();
+        }
+
+
+        //crée le form
+        $form = $this->createForm(SessionType::class, $session);
+
+        //prend en charge
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            //récupère les données du formulaire 
+            $session = $form->getData();
+
+            $entityManager->persist($session); //prepare
+            $entityManager->flush(); //execute
+
+            //redirige vers la liste des sessions
+            return $this->redirectToRoute("app_session");
+        }
+
+        //renvoie la vue
+        return $this->render('session/new.html.twig', [
+            'formAddSession' => $form,
+            //s'il reçoit l'id, il le renvoie et donc on est sur la modification, sinon il renvoie false et on est sur l'ajout
+            'edit' => $session->getId()
+        ]);
+
     }
 
     //detail d'une session
