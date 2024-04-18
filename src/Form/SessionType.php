@@ -5,13 +5,15 @@ namespace App\Form;
 use App\Entity\Session;
 use App\Entity\Formation;
 use App\Entity\Stagiaire;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use App\Form\ProgrammeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class SessionType extends AbstractType
 {
@@ -39,6 +41,16 @@ class SessionType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ]
+            ])
+            //la collection attend l'élément qu'elle rentrera dans le form
+            ->add('programmes', CollectionType::class, [
+                'entry_type' => ProgrammeType::class,
+                'prototype' => true,
+                //autorise l'ajout de nouveau element dans l'entite session, qui seront persistés grace aux cascade_persist sur l'élément programme
+                //va activer un data prototype qui sera un attribut html qu'on pourra manipuler en js
+                'allow_add' => true, //ajoute plusieurs programmes
+                'allow_delete' => true,
+                'by_reference' => false
             ])
             // ->add('inscription', EntityType::class, [
             //     'class' => Stagiaire::class,
