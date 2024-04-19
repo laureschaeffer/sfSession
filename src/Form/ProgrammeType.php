@@ -25,6 +25,7 @@ class ProgrammeType extends AbstractType
                 'attr' => [
                     'class' => 'form-control'
                 ]
+                // 'label' => '' 
                 // 'choice_label' => 'nom',
             ])
             ->add('duree', IntegerType::class, [

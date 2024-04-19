@@ -16,6 +16,7 @@
           <th scope="col">Places totales</th>
           <th scope="col">Places prises</th>
           <th scope="col">Places restantes</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -28,11 +29,11 @@
               <td>{{ session.nbPlace }}</td>
               <td>Places prises</td>
               <td>Places restantes</td>
+              <td><a href="{{ path('edit_session', {'id': session.id}) }}"><i class="fa-solid fa-pen"></i></a></td>
           </tr>
   {% endfor %}
       </tbody>
   </table>
-
   <a href="{{ path('new_session') }}">Créer une nouvelle session</a>
 </section>
 

@@ -1,0 +1,39 @@
+{# formulaire de modification d'une session #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une session{% endblock %}
+
+{% block body %}
+
+<h1>Modifier une session</h1>
+
+{{ form_start(form) }}
+
+
+<div class="row">
+    
+    
+    {{ form_row(form.formation) }}
+    
+    <div class="col-sm">
+        {{ form_row(form.dateDebut) }}
+    </div>
+    <div class="col-sm">
+        {{ form_row(form.dateFin) }}
+    </div>
+    {{ form_row(form.nbPlace) }}
+    
+
+    <h2>Programme</h2>
+    {% for module in form.programmes %}
+        {{ form_row(module.module) }}
+        {{ form_row(module.duree) }}
+    <hr>
+    {% endfor %}
+
+    {{ form_row(form.Valider) }}
+    {{ form_end(form) }}
+</div>
+
+{% endblock %}

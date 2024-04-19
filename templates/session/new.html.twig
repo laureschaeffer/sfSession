@@ -1,25 +1,14 @@
-{# formulaire d'ajout ou modification d'une session #}
-
+{# formulaire d'ajout d'une session #}
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Formulaire session{% endblock %}
+{% block title %}Ajouter une session{% endblock %}
 
 {% block body %}
 
-{# s'il recoit sessionId alors c'est une modification #}
-{% if sessionId %}
-       <h1>Modifier la session</h1>
-       
-{% else %}
    <h1>Créer une nouvelle session</h1>
    <p>L'ajout des stagiaires et du programme se fera par la suite</p>
-{% endif %}
 
-{# recupere le formulaire automatiquement  #}
-{# {{ form(form) }} #}
-
-{# possibilité de detailler #}
 
 {{ form_start(form) }}
 <div class="row">
@@ -51,24 +40,15 @@
             </div>
         </div>
         <div>
-        {# <div class="form-group row flex-action"> #}
+        <div class="form-group row flex-action">
             <button type="button" 
-            {# class="add-another-collection-widget button" #}
+            class="add-another-collection-widget button"
             data-list-selector="#programme-fields-list">+</button>
         </div>
-    </div>
-         
         {# empêche l'apparition d'une légende "programmes", si la collection est vide (en cas de création d'une nouvelle session) #}
         {% do form.programmes.setRendered %}
-
-    
-    {# <div>
-        <div id="programme-fields-list"
-            data-prototype="{{ form_widget(form.programmes.vars.prototype)|e }}"
-            data-session="{{ sessionId }}">
-
-        </div>
-    </div> #}
+    </div>
+      
 
 </div>
 
