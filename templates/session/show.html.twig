@@ -13,8 +13,9 @@
     
     {# programme  #}
     {% for programme in session.programmes %}
-     {{programme.info}} jours <br>
-        
+      {{programme.info}} jours 
+      <a href="{{ path('delete_programme', {'id': programme.id}) }}"><i class="fa-solid fa-x"></i></a>
+      <br>
     {% endfor %}
     
     {# infos  #}

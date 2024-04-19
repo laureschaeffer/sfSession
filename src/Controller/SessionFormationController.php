@@ -18,7 +18,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SessionFormationController extends AbstractController
 {
-    // ---------------------------------------------------------- categorie --------------------------------------------
+    // ---------------------------------------------------------- session --------------------------------------------
 
     //liste des sessions
     #[Route('/session', name: 'app_session')]
@@ -64,6 +64,12 @@ class SessionFormationController extends AbstractController
 
     }
 
+    //ajoute un stagiaire à la session
+    #[Route('/session/{id}/addStudentSession', name: 'add_student_session')] 
+    public function addStudentSession(){
+        
+    }
+
     //modifie la session
     #[Route('/session/{id}/edit', name: 'edit_session')] 
     public function edit(Session $session, SessionRepository $sessionRepository, EntityManagerInterface $entityManager, Request $request){
@@ -94,6 +100,17 @@ class SessionFormationController extends AbstractController
 
     }
 
+    //supprimer un programme d'une session
+    #[Route('/session/{id}/delete', name: 'delete_programme')] 
+    public function delete(Programme $programme, EntityManagerInterface $entityManager){
+
+
+        $entityManager->remove($programme); //prepare la requete
+        $entityManager->flush(); //execute
+
+        // redirection
+        return $this->redirectToRoute('app_session');
+    }
 
     //detail d'une session
     #[Route('/session/{id}', name: 'show_session')]
@@ -104,6 +121,8 @@ class SessionFormationController extends AbstractController
             'session' => $session
         ]);
     }
+
+    // --------------------------------------------------------formation--------------------------------------------------
 
     // liste des formations 
     #[Route('/formation', name: 'app_formation')]

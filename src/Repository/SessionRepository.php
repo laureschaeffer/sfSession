@@ -21,6 +21,12 @@ class SessionRepository extends ServiceEntityRepository
         parent::__construct($registry, Session::class);
     }
 
+    //ajouter un stagiaire à une session, table "session_stagiaire
+    public function addStudentSessionBDD(){
+        
+    }
+
+
     //    /**
     //     * @return Session[] Returns an array of Session objects
     //     */

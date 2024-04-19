@@ -60,6 +60,18 @@ class StagiaireController extends AbstractController
 
     }
 
+    //supprimer le stagiaire
+    //supprime également son inscription dans la table session_stagiaire, car "cascade lors d'un delete"
+    #[Route('stagiaire/{id}/delete', name: 'delete_stagiaire')]
+    public function delete(Stagiaire $stagiaire, EntityManagerInterface $entityManager){
+
+        $entityManager->remove($stagiaire); //prepare
+        $entityManager->flush(); //execute
+
+        //redirection
+        return $this->redirectToRoute('app_stagiaire');
+    }
+
     //detail d'un stagiaire
     #[Route('/stagiaire/{id}', name: 'show_stagiaire')]
     public function show(Stagiaire $stagiaire): Response
