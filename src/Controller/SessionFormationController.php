@@ -11,6 +11,7 @@ use App\Form\EditSessionType;
 use App\Repository\ModuleRepository;
 use App\Repository\SessionRepository;
 use App\Repository\FormationRepository;
+use App\Repository\StagiaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,10 +68,40 @@ class SessionFormationController extends AbstractController
 
 
     //ajoute un stagiaire à la session
-    #[Route('/session/addStudentSession', name: 'add_stagiaire_session')] 
-    public function addStagiaireSession(){
+    #[Route('/session/{idSession}/addStagiaireSession/{idStagiaire}', name: 'add_stagiaire_session')] 
+    public function addStagiaireSession(SessionRepository $sr, EntityManagerInterface $entityManager, StagiaireRepository $stagiaireR ,Request $request, int $idStagiaire, int $idSession) : Response
+    {
+        $stagiaire = $stagiaireR->findOneById($idStagiaire); //objet stagiaire
+        $session = $sr->findOneById($idSession); //objet session
+        //cette methode dans la classe session attend en argument le stagiaire
+        $add = $session->addInscription($stagiaire);
+
+        $entityManager->persist($add); //prepare
+        $entityManager->flush(); //execute
+
+        //redirige vers le detail de la session
+        return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
         
     }
+
+    //supprimer le stagiaire de la session
+    #[Route('/session/{idSession}/removeStagiaireSession/{idStagiaire}', name: 'remove_stagiaire_session')] 
+    public function removeStagiaireSession(SessionRepository $sr, EntityManagerInterface $entityManager, StagiaireRepository $stagiaireR ,Request $request, int $idStagiaire, int $idSession) : Response
+    {
+        $stagiaire = $stagiaireR->findOneById($idStagiaire); //objet stagiaire
+        $session = $sr->findOneById($idSession); //objet session
+        //cette methode dans la classe session attend en argument le stagiaire
+        $delete = $session->removeInscription($stagiaire);
+
+        $entityManager->persist($delete); //prepare
+        $entityManager->flush(); //execute
+
+        //redirige vers le detail de la session
+        return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
+        
+    }
+
+
 
     //modifie la session
     #[Route('/session/{id}/edit', name: 'edit_session')] 
@@ -88,7 +119,7 @@ class SessionFormationController extends AbstractController
             $entityManager->persist($session); //prepare
             $entityManager->flush(); //execute
 
-            //redirige vers la liste des sessions
+            //redirige vers le detail de la session
             return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
         }
 
@@ -105,19 +136,18 @@ class SessionFormationController extends AbstractController
     //supprimer un programme d'une session
     #[Route('/session/{id}/delete', name: 'delete_programme')] 
     public function delete(Programme $programme, EntityManagerInterface $entityManager){
-
-
+        
         $entityManager->remove($programme); //prepare la requete
         $entityManager->flush(); //execute
-
+        
+        $sessionId = $programme->getSession()->getId(); //id de la session pour la rédirection
         // redirection
-        return $this->redirectToRoute('app_session');
+        return $this->redirectToRoute('show_session', ['id'=>$sessionId]);
     }
 
     //detail d'une session
     #[Route('/session/{id}', name: 'show_session')]
     public function show(Session $session, SessionRepository $sessionRepository): Response
-    // public function show(Session $session, SessionRepository $sessionRepository, ModuleRepository $moduleRepository, ProgrammeRepository $programmeRepository): Response
     {
         $nonInscrits = $sessionRepository->findNonInscrits($session->getId()); //stagiaires pas inscrits pour l'ajout d'un stagiaire à l'inscription
 

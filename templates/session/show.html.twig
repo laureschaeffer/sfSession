@@ -43,7 +43,9 @@
             <td><a href=" {{ path('show_stagiaire', {'id': stagiaire.id})}}  ">{{ stagiaire.prenom }}</a></td>
             <td>{{stagiaire.nom}}</td>
             <td>{{stagiaire.telephone}}</td>
-            <td>{{stagiaire.ville}}</td>
+            <td>{{stagiaire.ville}}
+              <a href="{{ path('remove_stagiaire_session', {'idStagiaire': stagiaire.id, 'idSession': session.id}) }}">Supprimer</a>
+            </td>
         </tr>
         
     {% endfor %}
@@ -54,7 +56,7 @@
     {# Stagiaire Non Inscrit = SNI  #}
     {% for SNI in nonInscrits %}
       {{SNI}}
-      <a href="{{ path('add_stagiaire_session') }}">Ajouter</a>
+      <a href="{{ path('add_stagiaire_session', {'idStagiaire': SNI.id, 'idSession': session.id}) }}">Ajouter</a>
     {% endfor %}
 </section>
 
