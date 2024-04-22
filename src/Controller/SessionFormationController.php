@@ -7,6 +7,7 @@ use App\Entity\Session;
 use App\Entity\Programme;
 use App\Form\SessionType;
 use App\Form\ProgrammeType;
+use App\Form\EditSessionType;
 use App\Repository\ModuleRepository;
 use App\Repository\SessionRepository;
 use App\Repository\FormationRepository;
@@ -26,7 +27,7 @@ class SessionFormationController extends AbstractController
     //faire passer directement en argument le repository pour appeler des méthodes plus rapidement
     {
         //SELECT * from session ORDER BY date_debut ASC || "dateDebut" est le nom dans l'entité, pas la bdd
-        $sessions = $sessionRepository->findBy([], ["dateDebut" => "ASC"]);
+        $sessions = $sessionRepository->findBy([], ["dateDebut" => "DESC"]);
         return $this->render('session/index.html.twig', [
             'sessions' => $sessions
         ]);
@@ -64,9 +65,10 @@ class SessionFormationController extends AbstractController
 
     }
 
+
     //ajoute un stagiaire à la session
-    #[Route('/session/{id}/addStudentSession', name: 'add_student_session')] 
-    public function addStudentSession(){
+    #[Route('/session/addStudentSession', name: 'add_stagiaire_session')] 
+    public function addStagiaireSession(){
         
     }
 
@@ -74,7 +76,7 @@ class SessionFormationController extends AbstractController
     #[Route('/session/{id}/edit', name: 'edit_session')] 
     public function edit(Session $session, SessionRepository $sessionRepository, EntityManagerInterface $entityManager, Request $request){
         //crée le form
-        $form = $this->createForm(SessionType::class, $session);
+        $form = $this->createForm(EditSessionType::class, $session);
 
         //prend en charge
         $form->handleRequest($request);
@@ -87,7 +89,7 @@ class SessionFormationController extends AbstractController
             $entityManager->flush(); //execute
 
             //redirige vers la liste des sessions
-            return $this->redirectToRoute("app_session");
+            return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
         }
 
         //renvoie la vue
@@ -114,11 +116,15 @@ class SessionFormationController extends AbstractController
 
     //detail d'une session
     #[Route('/session/{id}', name: 'show_session')]
-    public function show(Session $session): Response
+    public function show(Session $session, SessionRepository $sessionRepository): Response
     // public function show(Session $session, SessionRepository $sessionRepository, ModuleRepository $moduleRepository, ProgrammeRepository $programmeRepository): Response
     {
+        $nonInscrits = $sessionRepository->findNonInscrits($session->getId()); //stagiaires pas inscrits pour l'ajout d'un stagiaire à l'inscription
+
+
         return $this->render('session/show.html.twig', [
-            'session' => $session
+            'session' => $session,
+            'nonInscrits' => $nonInscrits
         ]);
     }
 

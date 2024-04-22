@@ -25,12 +25,12 @@
     {{ form_row(form.nbPlace) }}
     
 
-    <h2>Programme</h2>
+    {# <h2>Programme</h2>
     {% for module in form.programmes %}
         {{ form_row(module.module) }}
         {{ form_row(module.duree) }}
     <hr>
-    {% endfor %}
+    {% endfor %} #}
 
     {{ form_row(form.Valider) }}
     {{ form_end(form) }}

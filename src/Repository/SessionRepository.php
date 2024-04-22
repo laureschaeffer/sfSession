@@ -21,9 +21,30 @@ class SessionRepository extends ServiceEntityRepository
         parent::__construct($registry, Session::class);
     }
 
-    //ajouter un stagiaire à une session, table "session_stagiaire
-    public function addStudentSessionBDD(){
-        
+    //trouve les stagiaires de la bdd non inscrits à une session précise
+    //  SELECT * FROM stagiaire WHERE id_stagiaire NOT IN (SELECT id_stagiaire FROM session_stagiaire WHERE id_session = : id_session)
+    public function findNonInscrits($session_id){
+        $em = $this->getEntityManager(); //em=EntityManager
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+        //trouve tous les stagiaires d'une session
+        $qb->select('s') //s=stagiaire
+            ->from('App\Entity\Stagiaire', 's')
+            ->leftJoin('s.sessions', 'se')
+            ->where('se.id = :id');
+
+        $sub = $em->createQueryBuilder();
+        //trouve tous les stagiaires pas dans le résultat précédent
+        $sub->select('st')
+        ->from('App\Entity\Stagiaire', 'st')
+        ->where($sub->expr()->notIn('st.id', $qb->getDQL()))
+        ->setParameter('id', $session_id)
+        ->orderBy('st.nom');
+
+        //renvoie le resultat
+        $query = $sub->getQuery();
+        return $query->getResult();
     }
 
 

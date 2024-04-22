@@ -49,6 +49,13 @@
     {% endfor %}
         </tbody>
     </table>
+    <h3>Stagiaires non inscrits </h3>
+
+    {# Stagiaire Non Inscrit = SNI  #}
+    {% for SNI in nonInscrits %}
+      {{SNI}}
+      <a href="{{ path('add_stagiaire_session') }}">Ajouter</a>
+    {% endfor %}
 </section>
 
 
