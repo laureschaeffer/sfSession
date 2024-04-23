@@ -183,4 +183,15 @@ class Session
         return $interval->format("%m");
     }
 
+    //nb de stagiaires inscrits
+    public function getNbInscription(){
+        $nbInscription = count($this->inscription);
+        return $nbInscription;
+    }
+
+    //places disponibles
+    public function getNbDispo(){
+        return $this->nbPlace - $this->getNbInscription();
+    }
+
 }

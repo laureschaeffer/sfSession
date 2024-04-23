@@ -14,6 +14,12 @@
         {% endblock %}
     </head>
     <body>
+        {# message de success #}
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
         <header>
             <nav>
                 <ul>
@@ -22,7 +28,10 @@
                     <li><a href="{{ path('app_module')}}">Modules</a></li>
                     <li><a href="{{ path('app_categorie')}}">Catégories</a></li>
                     <li><a href="{{ path('app_stagiaire')}}">Stagiaires</a></li>
-
+                </ul>
+                <ul>
+                    <li>Bonjour {{ app.user }}</li>
+                    <li><a href="{{ path('app_logout') }}">Logout</a></li>
                 </ul>
             </nav>
         </header>

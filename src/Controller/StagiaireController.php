@@ -31,6 +31,9 @@ class StagiaireController extends AbstractController
         //si le stagiaire n'a pas été trouvé, on en crée un nouveau, sinon ça veut dire qu'on est sur un formulaire de modification
         if(!$stagiaire){
             $stagiaire = new Stagiaire();
+            $text = " créé"; //pour le message de notif
+        } else {
+            $text = " modifié";
         }
 
 
@@ -47,7 +50,8 @@ class StagiaireController extends AbstractController
             $entityManager->persist($stagiaire); //prepare
             $entityManager->flush(); //execute
 
-            //redirige vers la liste des stagiaires
+            //notif et redirige vers la liste des stagiaires
+            $this->addFlash('success', 'Stagiaire ' . $stagiaire . $text);
             return $this->redirectToRoute("app_stagiaire");
         }
 
@@ -69,6 +73,7 @@ class StagiaireController extends AbstractController
         $entityManager->flush(); //execute
 
         //redirection
+        $this->addFlash('success', 'Stagiaire supprimé');
         return $this->redirectToRoute('app_stagiaire');
     }
 

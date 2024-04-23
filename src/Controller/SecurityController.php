@@ -53,12 +53,13 @@ class SecurityController extends AbstractController
                 )
             );
 
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $entityManager->persist($user); //prepare
+            $entityManager->flush(); //execute
 
             // do anything else you need here, like send an email
 
-            return $security->login($user, AppAuthenticator::class, 'main');
+            // return $security->login($user, AppAuthenticator::class, 'main');
+            return $this->redirectToRoute("login"); 
         }
 
         return $this->render('registration/register.html.twig', [

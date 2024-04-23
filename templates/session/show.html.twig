@@ -22,7 +22,7 @@
     <p>Du {{session.dateDebut | date("d.m.Y")}} au {{session.dateFin | date("d.m.Y")}} </p>
     <p>{{session.programmes|length}} modules</p>
     <p>Durée: {{ session.duree }} mois</p>
-    <p>{{ session.nbPlace }} places restantes</p>
+    <p>{{session.nbDispo}} places restantes</p>
     
     <p><a href="{{ path('edit_session', {'id': session.id}) }}">Modifier</a></p>
     {# stagiaires inscrits #}

@@ -34,7 +34,7 @@ class SessionFormationController extends AbstractController
         ]);
     }
 
-    //crée une nouvelle session ou modifie une existante
+    //crée une nouvelle session
     #[Route('/session/new', name: 'new_session')]
     public function new(SessionRepository $sessionRepository, EntityManagerInterface $entityManager, Request $request)
     {
@@ -54,7 +54,8 @@ class SessionFormationController extends AbstractController
             $entityManager->persist($session); //prepare
             $entityManager->flush(); //execute
 
-            //redirige vers la liste des sessions
+            //notif et redirige vers la liste des sessions
+            $this->addFlash('success', 'Session créée');
             return $this->redirectToRoute("app_session");
         }
 
@@ -66,6 +67,35 @@ class SessionFormationController extends AbstractController
 
     }
 
+
+    
+    //modifie la session
+    #[Route('/session/{id}/edit', name: 'edit_session')] 
+    public function edit(Session $session, SessionRepository $sessionRepository, EntityManagerInterface $entityManager, Request $request){
+        //crée le form
+        $form = $this->createForm(EditSessionType::class, $session);
+    
+        //prend en charge
+        $form->handleRequest($request);
+    
+        if($form->isSubmitted() && $form->isValid()){
+            //récupère les données du formulaire 
+            $session = $form->getData();
+            $entityManager->persist($session); //prepare
+            $entityManager->flush(); //execute
+    
+            //notif et redirige vers le detail de la session
+            $this->addFlash('success', 'Session bien modifiée');
+            return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
+        }
+    
+        //renvoie la vue
+        return $this->render('session/edit.html.twig', [
+            'form' => $form,
+            'sessionId' => $session->getId()
+        ]);
+    
+    }
 
     //ajoute un stagiaire à la session
     #[Route('/session/{idSession}/addStagiaireSession/{idStagiaire}', name: 'add_stagiaire_session')] 
@@ -79,7 +109,8 @@ class SessionFormationController extends AbstractController
         $entityManager->persist($add); //prepare
         $entityManager->flush(); //execute
 
-        //redirige vers le detail de la session
+        //notif redirige vers le detail de la session
+        $this->addFlash('success', 'Stagiaire '. $stagiaire .' ajouté à la session' );
         return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
         
     }
@@ -96,42 +127,13 @@ class SessionFormationController extends AbstractController
         $entityManager->persist($delete); //prepare
         $entityManager->flush(); //execute
 
-        //redirige vers le detail de la session
+        //notif redirige vers le detail de la session
+        $this->addFlash('success', 'Stagiaire ' . $stagiaire . ' supprimé de la session');
         return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
         
     }
 
 
-
-    //modifie la session
-    #[Route('/session/{id}/edit', name: 'edit_session')] 
-    public function edit(Session $session, SessionRepository $sessionRepository, EntityManagerInterface $entityManager, Request $request){
-        //crée le form
-        $form = $this->createForm(EditSessionType::class, $session);
-
-        //prend en charge
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()){
-            //récupère les données du formulaire 
-            $session = $form->getData();
-
-            $entityManager->persist($session); //prepare
-            $entityManager->flush(); //execute
-
-            //redirige vers le detail de la session
-            return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
-        }
-
-        //renvoie la vue
-        return $this->render('session/edit.html.twig', [
-            'form' => $form,
-            'sessionId' => $session->getId()
-        ]);
-
-
-
-    }
 
     //supprimer un programme d'une session
     #[Route('/session/{id}/delete', name: 'delete_programme')] 
@@ -141,7 +143,8 @@ class SessionFormationController extends AbstractController
         $entityManager->flush(); //execute
         
         $sessionId = $programme->getSession()->getId(); //id de la session pour la rédirection
-        // redirection
+        // notif et redirection
+        $this->addFlash('success', 'Programme supprimé');
         return $this->redirectToRoute('show_session', ['id'=>$sessionId]);
     }
 

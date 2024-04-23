@@ -35,27 +35,41 @@ class CategorieModuleController extends AbstractController
     {
         //crée une categorie
         $categorie = new Categorie();
+        // $module = new Module();
 
         //crée le form
-        $form = $this->createForm(CategorieType::class, $categorie);
+        $formCat = $this->createForm(CategorieType::class, $categorie);
+        // $formModule = $this->createForm(ModuleType::class, $module);
 
         //prend en charge
-        $form->handleRequest($request);
+        $formCat->handleRequest($request);
+        // $formModule->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if($formCat->isSubmitted() && $formCat->isValid()){
             //récupère les données du formulaire 
-            $categorie = $form->getData();
+            $categorie = $formCat->getData();
 
             $entityManager->persist($categorie); //prepare
             $entityManager->flush(); //execute
 
+            // if($module && $formModule->isSubmitted() && $formModule->isValid()){
+            //     $module = $formModule->getData();
+            //     var_dump("test"); die;
+
+            //     $entityManager->persist($module);
+            //     $entityManager->flush();
+            // }
+
+
             //redirige vers la liste des categories
+            $this->addFlash('success', 'Catégorie \''. $categorie->getNom() .'\' créée');
             return $this->redirectToRoute("app_categorie");
         }
 
         //renvoie la vue
         return $this->render('categorie/new.html.twig', [
-            'formAddCategorie' => $form
+            'formAddCategorie' => $formCat
+            // 'formAddModule' => $formModule
         ]);
 
     }
@@ -66,6 +80,7 @@ class CategorieModuleController extends AbstractController
     public function listModule(ModuleRepository $moduleRepository): Response
     {
         $modules = $moduleRepository->findBy([], ["nom" => "ASC"]);
+        // $modules = $moduleRepository->findBy([], ["categorie" => "ASC"]);
         return $this->render('module/index.html.twig', [
             'modules' => $modules,
         ]);
@@ -79,6 +94,9 @@ class CategorieModuleController extends AbstractController
         //si le module n'a pas été trouvé, on en crée un nouveau, sinon ça veut dire qu'on est sur un formulaire de modification
         if(!$module){
             $module = new Module();
+            $text = "créé"; //pour le message de succes
+        } else {
+            $text = "modifié";
         }
 
 
@@ -96,6 +114,7 @@ class CategorieModuleController extends AbstractController
             $entityManager->flush(); //execute
 
             //redirige vers la liste des modules
+            $this->addFlash('success', 'Module \''. $module->getNom() .'\' '. $text);
             return $this->redirectToRoute("app_module");
         }
 
