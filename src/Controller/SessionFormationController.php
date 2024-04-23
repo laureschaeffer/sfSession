@@ -4,8 +4,10 @@
 namespace App\Controller;
 
 use App\Entity\Session;
+use App\Entity\Formation;
 use App\Entity\Programme;
 use App\Form\SessionType;
+use App\Form\FormationType;
 use App\Form\ProgrammeType;
 use App\Form\EditSessionType;
 use App\Repository\ModuleRepository;
@@ -35,8 +37,8 @@ class SessionFormationController extends AbstractController
     }
 
     //crée une nouvelle session
-    #[Route('/session/new', name: 'new_session')]
-    public function new(SessionRepository $sessionRepository, EntityManagerInterface $entityManager, Request $request)
+    #[Route('/session/newSession', name: 'new_session')]
+    public function newSession(SessionRepository $sessionRepository, EntityManagerInterface $entityManager, Request $request)
     {
         $session = new Session();
 
@@ -135,9 +137,10 @@ class SessionFormationController extends AbstractController
 
 
 
+
     //supprimer un programme d'une session
-    #[Route('/session/{id}/delete', name: 'delete_programme')] 
-    public function delete(Programme $programme, EntityManagerInterface $entityManager){
+    #[Route('/session/{id}/deleteProgramme', name: 'delete_programme')] 
+    public function deleteProgramme(Programme $programme, EntityManagerInterface $entityManager){
         
         $entityManager->remove($programme); //prepare la requete
         $entityManager->flush(); //execute
@@ -148,17 +151,36 @@ class SessionFormationController extends AbstractController
         return $this->redirectToRoute('show_session', ['id'=>$sessionId]);
     }
 
+    //supprimer la session, avec son programme et ses inscriptions
+    #[Route('/session/{id}/deleteSession', name:'delete_session')]
+    public function deleteSession(Session $session, EntityManagerInterface $entityManager){
+
+
+        $entityManager->remove($session);
+        $entityManager->flush();
+
+        //notif et redirection
+        $this->addFlash('succes', 'Session supprimée');
+        return $this->redirectToRoute('app_session');
+    }
+
+
     //detail d'une session
     #[Route('/session/{id}', name: 'show_session')]
-    public function show(Session $session, SessionRepository $sessionRepository): Response
+    public function show(Session $session = null, SessionRepository $sessionRepository): Response
     {
-        $nonInscrits = $sessionRepository->findNonInscrits($session->getId()); //stagiaires pas inscrits pour l'ajout d'un stagiaire à l'inscription
+        //si l'id passé dans l'url existe; possible comme je mets session en null par defaut en argument, sinon erreur
+        if($session){
+            
+            $nonInscrits = $sessionRepository->findNonInscrits($session->getId()); //stagiaires pas inscrits pour l'ajout d'un stagiaire à l'inscription
+            return $this->render('session/show.html.twig', [
+                'session' => $session,
+                'nonInscrits' => $nonInscrits
+            ]);
 
-
-        return $this->render('session/show.html.twig', [
-            'session' => $session,
-            'nonInscrits' => $nonInscrits
-        ]);
+        } else {
+            return $this->redirectToRoute('app_session');
+        }
     }
 
     // --------------------------------------------------------formation--------------------------------------------------
@@ -172,6 +194,38 @@ class SessionFormationController extends AbstractController
         return $this->render('formation/index.html.twig', [
             'formations' => $formations,
         ]);
+    }
+
+    //crée une nouvelle formation
+    #[Route('/formation/newFormation', name: 'new_formation')]
+    public function newFormation(FormationRepository $formationRepository, EntityManagerInterface $entityManager, Request $request)
+    {
+        $formation = new Formation();
+
+
+        //crée le form
+        $form = $this->createForm(FormationType::class, $formation);
+
+        //prend en charge
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            //récupère les données du formulaire 
+            $formation = $form->getData();
+
+            $entityManager->persist($formation); //prepare
+            $entityManager->flush(); //execute
+
+            //notif et redirige vers la liste des formations
+            $this->addFlash('success', 'Formation créée');
+            return $this->redirectToRoute("app_formation");
+        }
+
+        //renvoie la vue
+        return $this->render('formation/new.html.twig', [
+            'form' => $form
+        ]);
+
     }
 
 }

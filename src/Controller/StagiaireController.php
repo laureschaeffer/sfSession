@@ -77,12 +77,19 @@ class StagiaireController extends AbstractController
         return $this->redirectToRoute('app_stagiaire');
     }
 
+
     //detail d'un stagiaire
     #[Route('/stagiaire/{id}', name: 'show_stagiaire')]
-    public function show(Stagiaire $stagiaire): Response
+    public function show(Stagiaire $stagiaire = null): Response
     {
-        return $this->render('stagiaire/show.html.twig', [
-            'stagiaire' => $stagiaire
-        ]);
+        //si l'id passé dans l'url existe; possible comme je mets stagiaire en null par defaut en argument, sinon erreur
+        if($stagiaire){
+            return $this->render('stagiaire/show.html.twig', [
+                'stagiaire' => $stagiaire
+            ]);
+
+        } else {
+            return $this->redirectToRoute('app_stagiaire'); 
+        }
     }
 }

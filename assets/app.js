@@ -7,4 +7,10 @@ import './bootstrap.js';
  */
 import './styles/app.css';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+const deleteCat = document.querySelector('.delete-categorie');
+deleteCat.addEventListener('click', showAlert);
+
+function showAlert(){
+    console.log("test")
+    confirm("Attention, supprimer une catégorie supprimera aussi ses modules!")
+}

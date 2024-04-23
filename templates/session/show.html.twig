@@ -56,8 +56,11 @@
     {# Stagiaire Non Inscrit = SNI  #}
     {% for SNI in nonInscrits %}
       {{SNI}}
-      <a href="{{ path('add_stagiaire_session', {'idStagiaire': SNI.id, 'idSession': session.id}) }}">Ajouter</a>
+      <p><a href="{{ path('add_stagiaire_session', {'idStagiaire': SNI.id, 'idSession': session.id}) }}">Ajouter</a></p>
     {% endfor %}
+
+    <p><a class="btn btn-danger" href="{{ path('delete_session', {'id': session.id}) }}">Supprimer cette session</a></p>
+    
 </section>
 
 

@@ -22,7 +22,10 @@
             <tr>
                 <td>{{i}} </td>
                 {% set i = i + 1 %}
-                <td>{{ categorie }}</td>
+                <td>{{ categorie }}
+                  {# <a href="#" class="delete-categorie">Supprimer</a> #}
+                  <a href="{{ path('delete_categorie', {'id': categorie.id}) }}" class="delete-categorie"><i class="fa-solid fa-x"></i></a>
+                </td>
             </tr>
     {% endfor %}
         </tbody>

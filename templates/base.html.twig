@@ -30,8 +30,15 @@
                     <li><a href="{{ path('app_stagiaire')}}">Stagiaires</a></li>
                 </ul>
                 <ul>
-                    <li>Bonjour {{ app.user }}</li>
-                    <li><a href="{{ path('app_logout') }}">Logout</a></li>
+                    {# si l'utilisateur est connecté  #}
+                    {% if app.user %}
+                        <li>Bonjour {{ app.user }}</li>
+                        <li><a href="{{ path('app_logout') }}">Logout</a></li>
+
+                    {% else %}
+                        <li><a href="{{ path('app_register') }}">Register</a></li>
+                        <li><a href="{{ path('app_login') }}">Login</a></li>
+                    {% endif %}
                 </ul>
             </nav>
         </header>

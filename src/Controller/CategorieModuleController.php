@@ -74,6 +74,18 @@ class CategorieModuleController extends AbstractController
 
     }
 
+    //supprime une categorie, et ses modules avec
+    #[Route('categorie/{id}/delete', name: 'delete_categorie')]
+    public function deleteCat(Categorie $categorie, EntityManagerInterface $entityManager){
+
+        $entityManager->remove($categorie); //prepare
+        $entityManager->flush(); //execute
+
+        //redirection
+        $this->addFlash('success', 'Catégorie supprimée');
+        return $this->redirectToRoute('app_categorie');
+    }
+
     // //-----------------------------------------------------module--------------------------------------------------------
     //liste des modules
     #[Route('/module', name: 'app_module')]
@@ -125,5 +137,17 @@ class CategorieModuleController extends AbstractController
             'edit' => $module->getId()
         ]);
 
+    }
+
+    //supprime un module
+    #[Route('module/{id}/delete', name: 'delete_module')]
+    public function deleteModule(Module $module, EntityManagerInterface $entityManager){
+
+        $entityManager->remove($module); //prepare
+        $entityManager->flush(); //execute
+
+        //redirection
+        $this->addFlash('success', 'Module supprimé');
+        return $this->redirectToRoute('app_module');
     }
 }
