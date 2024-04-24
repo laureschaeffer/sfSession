@@ -1,0 +1,49 @@
+Qu'est-ce que Symfony et quels sont ses principaux objectifs en matière de développement web ?
+---Symfony est un framework qui contient des composants/librairies. Il a été crée pour
+augmenter la productivité en donnant des outils (formulaire, authentification, controller, etc),
+la flexibilité (personnaliser ces modules)
+
+Quelle est le design pattern d'une application Symfony ?
+---Son design pattern (patron de conception, modele de conception) est le modele MVP: le modele et la vue ne communiquent jamais, contrairement au MVC
+
+
+Quels sont les composants principaux de Symfony et à quoi servent-ils ?
+
+
+systeme de routing 
+controlleur 
+dependances
+form 
+security (.yaml, ..)
+templating 
+tests unitaires 
+=> force de Symfony : libre, flexible (pas obligé de tout télécharger)
+
+
+Comment fonctionne le système de routing dans Symfony ?
+fait correspondre une url entrante avec des actions spécifiques de controller 
+
+
+
+Qu'est-ce qu'un contrôleur Symfony et comment en créer un ?
+---un controller symfony est une classe qui reçoit une requete 
+avec une action de l'utilisateur, cherche les données dans la couche qui va chercher la logique metier (modele) pour 
+renvoyer une réponse code http, reponse html
+
+
+Comment gérer les dépendances avec Symfony ?
+---grace au **contenneur de service**, on peut faire appel à un gestionnaire de dépendances, on va les récupérer et les utiliser quand on en a besoin
+
+
+Comment se fait la gestion des formulaires dans Symfony ?
+---composant form, qu'on appelle quand on en a besoin; on crée une classe de formulaire 
+
+
+Qu'est-ce que Doctrine et quel est son rôle dans Symfony ?
+---doctrine est un orm, une bibliothèque php qui fournit des outils pour accèder à la bdd et à la 
+persistance des objets
+---permet de représenter les entités d'une application sous forme d'objet php 
+ORM object-relational mapping: fait le routing entre l'application et la base de données, traduit requete dql en sql, renvoie des enregistrements en objet  
+
+
+URI: URL avec des précisions (session/1)

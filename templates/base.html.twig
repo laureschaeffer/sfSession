@@ -14,36 +14,42 @@
         {% endblock %}
     </head>
     <body>
-        {# message de success #}
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
+        <div id="wrapper">
+            {# message de success #}
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            <header>
+                <nav id="side-nav">
+                    <ul>
+                        <li><a href="{{ path('app_formation')}}">Formations</a></li>
+                        <li><a href="{{ path('app_session')}}">Sessions</a></li>
+                        <li><a href="{{ path('app_module')}}">Modules</a></li>
+                        <li><a href="{{ path('app_categorie')}}">Catégories</a></li>
+                        <li><a href="{{ path('app_stagiaire')}}">Stagiaires</a></li>
+                    </ul>
+                    <ul>
+                        {# si l'utilisateur est connecté  #}
+                        {% if app.user %}
+                            <li>{{ app.user }}</li>
+                            <li><a href="{{ path('app_logout') }}">Logout</a></li>
+            
+                        {% else %}
+                            <li><a href="{{ path('app_register') }}">Register</a></li>
+                            <li><a href="{{ path('app_login') }}">Login</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </header>
+            <div id="main-page">
+                {% block body %}{% endblock %}
             </div>
-        {% endfor %}
-        <header>
-            <nav>
-                <ul>
-                    <li><a href="{{ path('app_formation')}}">Formations</a></li>
-                    <li><a href="{{ path('app_session')}}">Sessions</a></li>
-                    <li><a href="{{ path('app_module')}}">Modules</a></li>
-                    <li><a href="{{ path('app_categorie')}}">Catégories</a></li>
-                    <li><a href="{{ path('app_stagiaire')}}">Stagiaires</a></li>
-                </ul>
-                <ul>
-                    {# si l'utilisateur est connecté  #}
-                    {% if app.user %}
-                        <li>Bonjour {{ app.user }}</li>
-                        <li><a href="{{ path('app_logout') }}">Logout</a></li>
 
-                    {% else %}
-                        <li><a href="{{ path('app_register') }}">Register</a></li>
-                        <li><a href="{{ path('app_login') }}">Login</a></li>
-                    {% endif %}
-                </ul>
-            </nav>
-        </header>
+        </div>
 
-        {% block body %}{% endblock %}
         {# {% block javascripts %}
             
         {% endblock %} #}

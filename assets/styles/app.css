@@ -1,3 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Georama:ital,wght@0,100..900;1,100..900&display=swap');
+
 *{
     box-sizing: border-box;
+    font-family: "Georama", sans-serif;
+}
+
+:root{
+    --main--espace : 20px;
+    --main-txt-color: #ffff;
+
+    --border-size: 10px; 
+    --btn-color: #034748;
+}
+
+/* -----------------------------------------------------------------------------template--------------------------------------------- */
+#side-nav{
+    display: flex;
+    background-color: #456990;
+}
+
+#side-nav ul{
+    display: flex;
+}
+
+#side-nav li{
+    padding: var(--main--espace);
+}
+
+#side-nav li{
+    list-style: none;
+}
+
+#side-nav a{
+    color: white;
+}
+
+/* ---------------general */
+/* le bouton  */
+.add-btn{
+    font-size: small;
+}
+
+.add-btn button{
+    background-color: var(--btn-color);
+    color: var(--main-txt-color);
+    border-radius: var(--border-size);
+    padding: 5px 20px;
+    border: none;
+}
+
+/* span nombre vert  */
+.nb-green{
+    font-weight: bold;
+    color: var(--btn-color);
+}
+
+.fa-solid{
+    padding-right: 10px;
+}
+
+/* ---------------------------------------------------------------------------session------------------------------------------------------ */
+
+/* ----------listes */
+
+
+h1{
+    padding: var(--main--espace) 0;
+}
+
+#sessions a{
+    color: black;
+}
+
+.section-detail{
+    font-weight: 600;
+}
+
+/* -----------detail */
+#sessions, #session-detail, #formations{
+    margin: var(--main--espace);
+}
+
+#session-info{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+.session-info-general{
+    border: 1px solid;
+    border-radius: var(--border-size);
+    padding: var(--main--espace);
+}
+
+
+#session-detail h2, #session-detail h3{
+    border-top: solid 1px black;
+    border-bottom: solid 1px black;
+    border-left: solid 5px #456990 ;
+    padding: 10px;
+    font-size: medium;
+    font-weight: 600;
+    margin-bottom: 20px;
 }
