@@ -21,6 +21,12 @@
                     {{ message }}
                 </div>
             {% endfor %}
+            {# message d'erreur #}
+            {% for msg in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ msg }}
+                </div>
+            {% endfor %}
 
             <header>
                 <nav id="side-nav">

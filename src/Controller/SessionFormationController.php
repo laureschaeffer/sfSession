@@ -40,8 +40,8 @@ class SessionFormationController extends AbstractController
     #[Route('/session/newSession', name: 'new_session')]
     public function newSession(SessionRepository $sessionRepository, EntityManagerInterface $entityManager, Request $request)
     {
+        
         $session = new Session();
-
 
         //crée le form
         $form = $this->createForm(SessionType::class, $session);
@@ -52,13 +52,20 @@ class SessionFormationController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             //récupère les données du formulaire 
             $session = $form->getData();
+            
+            //verifie la cohérence des dates, fonction dans l'entité qui renvoie un boolean
+            if($session->getValidDate()){
+                $entityManager->persist($session); //prepare
+                $entityManager->flush(); //execute
+    
+                //notif et redirige vers la liste des sessions
+                $this->addFlash('success', 'Session créée');
+                return $this->redirectToRoute("app_session");
+            } else {
+                $this->addFlash('error', 'La date de début est soit déjà passée, soit après la date de fin');
+                return $this->redirectToRoute("app_session") ;
+            }
 
-            $entityManager->persist($session); //prepare
-            $entityManager->flush(); //execute
-
-            //notif et redirige vers la liste des sessions
-            $this->addFlash('success', 'Session créée');
-            return $this->redirectToRoute("app_session");
         }
 
         //renvoie la vue
@@ -83,12 +90,14 @@ class SessionFormationController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             //récupère les données du formulaire 
             $session = $form->getData();
+
             $entityManager->persist($session); //prepare
             $entityManager->flush(); //execute
-    
+
             //notif et redirige vers le detail de la session
             $this->addFlash('success', 'Session bien modifiée');
-            return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
+            return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);         
+            
         }
     
         //renvoie la vue
@@ -105,15 +114,37 @@ class SessionFormationController extends AbstractController
     {
         $stagiaire = $stagiaireR->findOneById($idStagiaire); //objet stagiaire
         $session = $sr->findOneById($idSession); //objet session
-        //cette methode dans la classe session attend en argument le stagiaire
-        $add = $session->addInscription($stagiaire);
+        
+        //s'il ne restait plus qu'une place, on ajoute le stagiaire et on ferme l'inscription
+        if($session->getNbDispo() ==1){
+            //cette methode dans la classe session attend en argument le stagiaire
+            $add = $session->addInscription($stagiaire);
 
-        $entityManager->persist($add); //prepare
-        $entityManager->flush(); //execute
+            $entityManager->persist($add); //prepare
+            $entityManager->flush(); //execute
 
-        //notif redirige vers le detail de la session
-        $this->addFlash('success', 'Stagiaire '. $stagiaire .' ajouté à la session' );
-        return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
+            $session->setOuvert(false); //ferme la session
+
+            //notif redirige vers le detail de la session
+            $this->addFlash('success', 'Stagiaire '. $stagiaire .' ajouté à la session, session fermée' );
+            return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
+
+        } elseif($session->getNbDispo() > 1){
+            //cette methode dans la classe session attend en argument le stagiaire
+            $add = $session->addInscription($stagiaire);
+
+            $entityManager->persist($add); //prepare
+            $entityManager->flush(); //execute
+            
+            //notif redirige vers le detail de la session
+            $this->addFlash('success', 'Stagiaire '. $stagiaire .' ajouté à la session' );
+            return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
+            
+        } else {
+            $this->addFlash('error', 'Session complète');
+            return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
+        }
+
         
     }
 
@@ -179,6 +210,7 @@ class SessionFormationController extends AbstractController
             ]);
 
         } else {
+            $this->addFlash('error', 'Session inexistante');
             return $this->redirectToRoute('app_session');
         }
     }

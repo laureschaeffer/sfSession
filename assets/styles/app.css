@@ -104,3 +104,30 @@ h1{
     font-weight: 600;
     margin-bottom: 20px;
 }
+
+/* ------------diagramme des modules  */
+.diagramme{
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    /* Les différentes couleurs et portions du graphique */
+    background: conic-gradient(
+        red 0% 20%,  
+        blue 20% 40%,
+        green 40% 60%,
+        yellow 60% 80%,
+        grey 80% 100%
+    );
+}
+
+.creux {
+    width: 150px; 
+    height: 150px; 
+    background: white; 
+    border-radius: 50%; 
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+}

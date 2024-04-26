@@ -180,7 +180,21 @@ class Session
     public function getDuree()
     {
         $interval = $this->dateFin->diff($this->dateDebut);
-        return $interval->format("%m");
+        return $interval;
+        // var_dump($date1 < $date2);
+        // $interval = date_diff($this->dateDebut, $this->dateFin, $absolute = false);
+        //"d" pour le nombre de jours pas contenu dans le calcul d'un mois, "a" pour le nombre de jours total
+    }
+
+    //verifie si la date de début n'est pas passée, et si la date de début n'est pas avant la date de début
+    public function getValidDate() : bool 
+    {
+        $ajd = new \DateTime();
+        if($this->dateDebut > $this->dateFin || $this->dateDebut < $ajd){
+            return false; 
+        } else {
+            return true ;
+        }
     }
 
     //nb de stagiaires inscrits
