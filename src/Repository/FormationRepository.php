@@ -21,22 +21,23 @@ class FormationRepository extends ServiceEntityRepository
         parent::__construct($registry, Formation::class);
     }
 
-    //recherche une fonction par son nom
-    // public function findByName($searchTerm)
-    // {
-    //     $em = $this->getEntityManager(); //em=EntityManager
-    //     $qb = $em->createQueryBuilder();
 
-    //     //SELECT * FROM formation WHERE nom LIKE '%developpement%'
-    //     $qb->select('f')
-    //         ->from('App\Entity\Formation')
-    //         ->where('f.nom LIKE \'% :search % \'')
-    //         ->setParameter('search', $searchTerm)
-    //     ;
-    //     $result = $qb->getQuery();
-    //     return $result;
-        
-    // }
+    //recherche en fonction d'un mot clé dans les enregistrements dans la bdd
+    public function findByWord($word) {
+        $em = $this->getEntityManager();
+
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+
+        $qb->select('a')
+            ->from('App\Entity\Formation', 'a')
+            ->where('a.nom LIKE :word')
+            ->setParameter('word', '%'.$word.'%');
+
+        $query = $sub->getQuery();
+        return $query->getResult();
+    }
 
     //    /**
     //     * @return Formation[] Returns an array of Formation objects

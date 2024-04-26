@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Résultat des recherches{% endblock %}
+
+{% block body %}
+<h1>Résultat de votre recherche "{{word}}"</h1>
+
+{# {{ dump(categorie) }}
+{{ dump(formation) }}
+{{ dump(stagiaire) }}
+{{ dump(module) }} #}
+
+{# recupere tous les tableaux  #}
+{% if categorie %}
+    <h2>Dans les categories</h2>
+    {% for c in categorie %}
+        <p>{{c}}</p>   
+    {% endfor %}
+
+{% elseif formation %}
+    <h2>Dans les formations</h2>
+    {% for f in formation %}
+        <p>{{f}}</p>   
+    {% endfor %}
+
+{% elseif stagiaire %}
+    <h2>Dans les stagiaires</h2>
+    {% for s in stagiaire %}
+        <p><a href=" {{ path('show_stagiaire', {'id': s.id})}}  ">{{ s }}</a></p>  
+    {% endfor %}
+
+{% elseif module %}
+    <h2>Dans les modules</h2>
+    {% for m in module %}
+        <p>{{m}}</p>   
+    {% endfor %}
+
+{% else %}
+<p>Aucun résultat</p> 
+{% endif %}
+
+
+{% endblock %}

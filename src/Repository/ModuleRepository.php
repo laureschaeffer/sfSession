@@ -21,6 +21,23 @@ class ModuleRepository extends ServiceEntityRepository
         parent::__construct($registry, Module::class);
     }
 
+    //recherche en fonction d'un mot clé dans les enregistrements dans la bdd
+    public function findByWord($word) {
+        $em = $this->getEntityManager();
+
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+
+        $qb->select('a')
+            ->from('App\Entity\Module', 'a')
+            ->where('a.nom LIKE :word')
+            ->setParameter('word', '%'.$word.'%');
+
+        $query = $sub->getQuery();
+        return $query->getResult();
+    }
+
     //    /**
     //     * @return Module[] Returns an array of Module objects
     //     */

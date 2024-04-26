@@ -47,6 +47,23 @@ class SessionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    //     //recherche en fonction d'un mot clé dans les enregistrements dans la bdd
+    // public function findByWord($word) {
+    //     $em = $this->getEntityManager();
+
+    //     $sub = $em->createQueryBuilder();
+
+    //     $qb = $sub;
+
+    //     $qb->select('a')
+    //         ->from('App\Entity\Session', 'a')
+    //         ->where('a. LIKE :word')
+    //         ->setParameter('word', '%'.$word.'%');
+
+    //     $query = $sub->getQuery();
+    //     return $query->getResult();
+    // }
+
 
     //    /**
     //     * @return Session[] Returns an array of Session objects

@@ -21,9 +21,15 @@
       </thead>
       <tbody>
   {% for session in sessions %}
-          <tr>
-            
-              <td><a href="{{ path('show_session', {'id': session.id}) }}" class="section-detail">{{session}}</a></td>
+    {% if session.ouvert == true %}
+      <tr>
+        {% set lock = "" %}
+    {% else %}
+      <tr class="table-secondary">
+        {% set lock = "(vérouillé)" %}
+    {% endif %}
+          
+              <td><a href="{{ path('show_session', {'id': session.id}) }}" class="section-detail">{{session}}</a> {{lock}}</td>
               <td>{{ session.dateDebut | date("d.m.Y") }}</td>
               <td>{{ session.dateFin | date("d.m.Y") }}</td>
               <td>{{ session.nbPlace }}</td>

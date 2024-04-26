@@ -21,6 +21,23 @@ class CategorieRepository extends ServiceEntityRepository
         parent::__construct($registry, Categorie::class);
     }
 
+    //recherche en fonction d'un mot clé dans les enregistrements dans la bdd
+    public function findByWord($word) {
+        $em = $this->getEntityManager();
+
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+
+        $qb->select('a')
+            ->from('App\Entity\Categorie', 'a')
+            ->where('a.nom LIKE :word')
+            ->setParameter('word', '%'.$word.'%');
+
+        $query = $sub->getQuery();
+        return $query->getResult();
+    }
+
     //    /**
     //     * @return Categorie[] Returns an array of Categorie objects
     //     */

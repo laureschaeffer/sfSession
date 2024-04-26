@@ -49,6 +49,11 @@
                         {% endif %}
                     </ul>
                 </nav>
+                {# barre de recherche, possibilite de faire un formulaire a la main  #}
+                <form action="{{ path('app_search')}}" method="GET">
+                    <input type="search" class="search" name="search" placeholder="Search">
+                    <button type="submit" name="submit">Valider</button>
+                </form>
             </header>
             <div id="main-page">
                 {% block body %}{% endblock %}

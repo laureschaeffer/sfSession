@@ -33,15 +33,15 @@
           {% else %}
           <p><i class="fa-solid fa-chevron-right"></i><span class="nb-green">{{session.programmes|length}}</span> module</p>
         {% endif %} 
-        {# <p><i class="fa-solid fa-chevron-right"></i>Durée: {{ session.duree | date("%a")}} mois</p> #}
+        <p><i class="fa-solid fa-chevron-right"></i>Durée: {{ session.duree | date("%m")}} mois</p>
 
         {# au moins 2 places restantes, pour la conjugaison  #}
         {% if session.nbDispo > 1 %}
           <p><i class="fa-solid fa-chevron-right"></i><span class="nb-green">{{session.nbDispo}}</span> places restantes</p>
           {# si la session n'a plus de place  #}
           {% elseif session.nbDispo ==0 %} 
-          <div class="alert alert-danger" role="alert">
-            <p>Session fermée</p>
+          <div class="alert alert-danger">
+            <p>Inscription fermée</p>
           </div>
           {% else %}
           <p><i class="fa-solid fa-chevron-right"></i><span class="nb-green">1</span> place restante</p>
@@ -80,12 +80,14 @@
     {% endfor %}
         </tbody>
     </table>
-    <h3>Stagiaires non inscrits </h3>
+    {% if session.nbDispo > 0 %}
+      <h3>Stagiaires non inscrits </h3>
 
-    {# Stagiaire Non Inscrit = SNI  #}
-    {% for SNI in nonInscrits %}
-      <p>{{SNI}}      <a href="{{ path('add_stagiaire_session', {'idStagiaire': SNI.id, 'idSession': session.id}) }}">ajouter</a></p>
-    {% endfor %}
+      {# Stagiaire Non Inscrit = SNI  #}
+      {% for SNI in nonInscrits %}
+        <p>{{SNI}}      <a href="{{ path('add_stagiaire_session', {'idStagiaire': SNI.id, 'idSession': session.id}) }}">ajouter</a></p>
+      {% endfor %}
+    {% endif %}
 
     <p><a class="btn btn-danger" href="{{ path('delete_session', {'id': session.id}) }}">Supprimer cette session</a></p>
     

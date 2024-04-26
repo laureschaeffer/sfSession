@@ -117,13 +117,13 @@ class SessionFormationController extends AbstractController
         
         //s'il ne restait plus qu'une place, on ajoute le stagiaire et on ferme l'inscription
         if($session->getNbDispo() ==1){
+            $session->setOuvert(false); //ferme la session
+            
             //cette methode dans la classe session attend en argument le stagiaire
             $add = $session->addInscription($stagiaire);
 
             $entityManager->persist($add); //prepare
             $entityManager->flush(); //execute
-
-            $session->setOuvert(false); //ferme la session
 
             //notif redirige vers le detail de la session
             $this->addFlash('success', 'Stagiaire '. $stagiaire .' ajouté à la session, session fermée' );
@@ -152,17 +152,40 @@ class SessionFormationController extends AbstractController
     #[Route('/session/{idSession}/removeStagiaireSession/{idStagiaire}', name: 'remove_stagiaire_session')] 
     public function removeStagiaireSession(SessionRepository $sr, EntityManagerInterface $entityManager, StagiaireRepository $stagiaireR ,Request $request, int $idStagiaire, int $idSession) : Response
     {
+        
         $stagiaire = $stagiaireR->findOneById($idStagiaire); //objet stagiaire
         $session = $sr->findOneById($idSession); //objet session
-        //cette methode dans la classe session attend en argument le stagiaire
-        $delete = $session->removeInscription($stagiaire);
+        
+        //si on enleve un stagiaire alors qu'avant elle était fermée
+        if($session->getNbDispo() ==0){
+            $session->setOuvert(true); //rouvre la session
 
-        $entityManager->persist($delete); //prepare
-        $entityManager->flush(); //execute
+            //cette methode dans la classe session attend en argument le stagiaire
+            $delete = $session->removeInscription($stagiaire);
+    
+            $entityManager->persist($delete); //prepare
+            $entityManager->flush(); //execute
 
-        //notif redirige vers le detail de la session
-        $this->addFlash('success', 'Stagiaire ' . $stagiaire . ' supprimé de la session');
-        return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
+
+            //notif redirige vers le detail de la session
+            $this->addFlash('success', 'Stagiaire ' . $stagiaire . ' supprimé de la session');
+            return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
+
+        } elseif($session->getNbDispo() > 0){
+            //cette methode dans la classe session attend en argument le stagiaire
+            $delete = $session->removeInscription($stagiaire);
+    
+            $entityManager->persist($delete); //prepare
+            $entityManager->flush(); //execute
+
+            //notif redirige vers le detail de la session
+            $this->addFlash('success', 'Stagiaire ' . $stagiaire . ' supprimé de la session');
+            return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
+        } else {
+
+            return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
+        }
+        
         
     }
 
