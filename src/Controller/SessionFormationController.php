@@ -19,6 +19,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\ExpressionLanguage\Expression;
+
 
 class SessionFormationController extends AbstractController
 {
@@ -37,6 +40,7 @@ class SessionFormationController extends AbstractController
     }
 
     //crée une nouvelle session
+    #[IsGranted(new Expression('is_granted("ROLE_USER")'))] //autorisation pour effectuer certaines fonctionnalités
     #[Route('/session/newSession', name: 'new_session')]
     public function newSession(SessionRepository $sessionRepository, EntityManagerInterface $entityManager, Request $request)
     {

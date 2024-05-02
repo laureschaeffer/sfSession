@@ -24,8 +24,13 @@
         <p><a href="{{ path('show_session', {'id': session.id}) }}">{{session}}</a> ({{session.dateDebut | date("d-m-Y")}} au {{session.dateFin | date("d-m-Y")}} )</p>
         
     {% endfor %}
+    {# si connecté et si admin  #}
 
-    <button type="button" class="btn btn-warning"><a href="{{ path('delete_stagiaire', {'id': stagiaire.id}) }}">Delete</a></button>
+    {% if app.user and app.user.roles[0] == "ROLE_ADMIN" %}
+        <button type="button" class="btn btn-warning"><a href="{{ path('delete_stagiaire', {'id': stagiaire.id}) }}">Delete</a></button>
+  {% endif %}
+
+    
         
     
 </section>

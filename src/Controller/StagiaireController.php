@@ -68,13 +68,20 @@ class StagiaireController extends AbstractController
     //supprime également son inscription dans la table session_stagiaire, car "cascade lors d'un delete"
     #[Route('stagiaire/{id}/delete', name: 'delete_stagiaire')]
     public function delete(Stagiaire $stagiaire, EntityManagerInterface $entityManager){
+        //si l'user a l'authorisation
+        if ($this->isGranted('ROLE_ADMIN')){
+            $entityManager->remove($stagiaire); //prepare
+            $entityManager->flush(); //execute
+    
+            //redirection
+            $this->addFlash('success', 'Stagiaire supprimé');
+            return $this->redirectToRoute('app_stagiaire');
+            
+        } else {
+            $this->addFlash('error', 'Vous n\'avez pas l\'authorisation pour supprimer ce stagiaire.');
+            return $this->redirectToRoute('app_stagiaire');
+        }
 
-        $entityManager->remove($stagiaire); //prepare
-        $entityManager->flush(); //execute
-
-        //redirection
-        $this->addFlash('success', 'Stagiaire supprimé');
-        return $this->redirectToRoute('app_stagiaire');
     }
 
 

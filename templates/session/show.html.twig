@@ -85,7 +85,7 @@
 
       {# Stagiaire Non Inscrit = SNI  #}
       {% for SNI in nonInscrits %}
-        <p>{{SNI}}      <a href="{{ path('add_stagiaire_session', {'idStagiaire': SNI.id, 'idSession': session.id}) }}">ajouter</a></p>
+        <p><a href="{{ path('show_stagiaire', {'id': SNI.id})}}">{{SNI}}</a>      <a href="{{ path('add_stagiaire_session', {'idStagiaire': SNI.id, 'idSession': session.id}) }}">ajouter</a></p>
       {% endfor %}
     {% endif %}
 

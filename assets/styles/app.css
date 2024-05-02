@@ -39,7 +39,7 @@
 
 /* margin de toutes les pages  */
 
-#sessions, #session-detail, #formations{
+#sessions, #session-detail, #formations, #sessions-new{
     margin: var(--main--espace);
 }
 
