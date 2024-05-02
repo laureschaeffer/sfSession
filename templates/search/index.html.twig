@@ -5,39 +5,49 @@
 {% block body %}
 <h1>Résultat de votre recherche "{{word}}"</h1>
 
-{# {{ dump(categorie) }}
-{{ dump(formation) }}
-{{ dump(stagiaire) }}
-{{ dump(module) }} #}
 
 {# recupere tous les tableaux  #}
+{% if session %}
+    <h2>Dans les sessions</h2>
+    {% for s in session %}
+        <p><a href="{{ path('show_session', {'id' : s.id}) }}">{{s}}</a> ({{s.dateDebut  | date("d.m.Y")}} - {{s.dateFin | date("d.m.Y")}}  ) </p>   
+    {% endfor %}
+{% endif %}
+
 {% if categorie %}
     <h2>Dans les categories</h2>
     {% for c in categorie %}
         <p>{{c}}</p>   
     {% endfor %}
+{% endif %}
 
-{% elseif formation %}
+{% if formation %}
     <h2>Dans les formations</h2>
     {% for f in formation %}
         <p>{{f}}</p>   
     {% endfor %}
+{% endif %}
 
-{% elseif stagiaire %}
+
+{% if stagiaire %}
     <h2>Dans les stagiaires</h2>
-    {% for s in stagiaire %}
-        <p><a href=" {{ path('show_stagiaire', {'id': s.id})}}  ">{{ s }}</a></p>  
+    {% for st in stagiaire %}
+        <p><a href=" {{ path('show_stagiaire', {'id': st.id})}}  ">{{ st }}</a></p>  
     {% endfor %}
+{% endif %}
 
-{% elseif module %}
+{% if module %}
     <h2>Dans les modules</h2>
     {% for m in module %}
         <p>{{m}}</p>   
     {% endfor %}
-
-{% else %}
-<p>Aucun résultat</p> 
 {% endif %}
+
+{% if session == null and categorie == null and formation == null and stagiaire == null and module == null %}
+    <p>Aucun résultat</p> 
+{% endif %}
+
+
 
 
 {% endblock %}

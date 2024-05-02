@@ -48,21 +48,23 @@ class SessionRepository extends ServiceEntityRepository
     }
 
     //     //recherche en fonction d'un mot clé dans les enregistrements dans la bdd
-    // public function findByWord($word) {
-    //     $em = $this->getEntityManager();
+    public function findByWord($word) {
+        $em = $this->getEntityManager();
 
-    //     $sub = $em->createQueryBuilder();
+        $sub = $em->createQueryBuilder();
 
-    //     $qb = $sub;
+        $qb = $sub;
 
-    //     $qb->select('a')
-    //         ->from('App\Entity\Session', 'a')
-    //         ->where('a. LIKE :word')
-    //         ->setParameter('word', '%'.$word.'%');
+        //inner join avec formation pour chercher par le nom de la formation 
+        $qb->select('a')
+            ->from('App\Entity\Session', 'a')
+            ->innerJoin('a.formation', 'f')
+            ->where('f.nom LIKE :word')
+            ->setParameter('word', '%'.$word.'%');
 
-    //     $query = $sub->getQuery();
-    //     return $query->getResult();
-    // }
+        $query = $sub->getQuery();
+        return $query->getResult();
+    }
 
 
     //    /**

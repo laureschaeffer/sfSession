@@ -31,7 +31,7 @@ class StagiaireRepository extends ServiceEntityRepository
 
         $qb->select('a')
             ->from('App\Entity\Stagiaire', 'a')
-            ->where('a.nom LIKE :word')
+            ->where('a.nom LIKE :word OR a.prenom LIKE :word')
             ->setParameter('word', '%'.$word.'%');
 
         $query = $sub->getQuery();

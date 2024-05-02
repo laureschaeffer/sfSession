@@ -36,6 +36,13 @@
 }
 
 /* ---------------general */
+
+/* margin de toutes les pages  */
+
+#sessions, #session-detail, #formations{
+    margin: var(--main--espace);
+}
+
 /* le bouton  */
 .add-btn{
     font-size: small;
@@ -77,9 +84,6 @@ h1{
 }
 
 /* -----------detail */
-#sessions, #session-detail, #formations{
-    margin: var(--main--espace);
-}
 
 #session-info{
     display: flex;
@@ -106,12 +110,11 @@ h1{
 }
 
 /* ------------diagramme des modules  */
-.diagramme{
+/* .diagramme{
     position: relative;
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    /* Les différentes couleurs et portions du graphique */
     background: conic-gradient(
         red 0% 20%,  
         blue 20% 40%,
@@ -130,4 +133,4 @@ h1{
     top: 50%; 
     left: 50%; 
     transform: translate(-50%, -50%); 
-}
+} */
