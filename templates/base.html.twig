@@ -29,6 +29,7 @@
             {% endfor %}
 
             <header>
+                {# nav sur la gauche  #}
                 <nav id="side-nav">
                     <ul>
                         <li><a href="{{ path('app_formation')}}">Formations</a></li>
@@ -36,24 +37,30 @@
                         <li><a href="{{ path('app_module')}}">Modules</a></li>
                         <li><a href="{{ path('app_categorie')}}">Catégories</a></li>
                         <li><a href="{{ path('app_stagiaire')}}">Stagiaires</a></li>
-                    </ul>
-                    <ul>
-                        {# si l'utilisateur est connecté  #}
-                        {% if app.user %}
-                            <li>{{ app.user }}</li>
-                            <li><a href="{{ path('app_logout') }}">Logout</a></li>
-            
-                        {% else %}
-                            <li><a href="{{ path('app_register') }}">Register</a></li>
-                            <li><a href="{{ path('app_login') }}">Login</a></li>
+                        {# si connecté et si admin  #}
+                        {% if app.user and app.user.roles[0] == "ROLE_ADMIN" %}
+                        <li><a href="{{ path('app_admin') }}">Dashboard</a></li>
                         {% endif %}
                     </ul>
                 </nav>
-                {# barre de recherche, possibilite de faire un formulaire a la main  #}
-                <form action="{{ path('app_search')}}" method="GET">
-                    <input type="search" class="search" name="search" placeholder="Search">
-                    <button type="submit" name="submit">Valider</button>
-                </form>
+                {# 2e nav sur le haut  #}
+                <nav id="top-nav">
+                    <h2>Adminify</h2>
+                    {# barre de recherche, possibilite de faire un formulaire a la main  #}
+                    <form action="{{ path('app_search')}}" method="GET">
+                        <input type="search" class="search" name="search" placeholder="Search">
+                        <button type="submit" name="submit">Valider</button>
+                    </form>
+                        {# si l'utilisateur est connecté  #}
+                        {% if app.user %}
+                        <a href="{{ path('app_profil') }}">{{ app.user }}</a>
+                        <a href="{{ path('app_logout') }}">Logout</a>
+            
+                        {% else %}
+                            <a href="{{ path('app_register') }}">Register</a>
+                            <a href="{{ path('app_login') }}">Login</a>
+                        {% endif %}
+                    </nav>
             </header>
             <div id="main-page">
                 {% block body %}{% endblock %}

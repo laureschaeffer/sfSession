@@ -36,6 +36,7 @@ class SecurityController extends AbstractController
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        $this->redirectToRoute("app_login"); 
     }
 
     #[Route('/register', name: 'app_register')]
@@ -60,7 +61,7 @@ class SecurityController extends AbstractController
             // do anything else you need here, like send an email
 
             // return $security->login($user, AppAuthenticator::class, 'main');
-            return $this->redirectToRoute("login"); 
+            return $this->redirectToRoute("app_login"); 
         }
 
         return $this->render('registration/register.html.twig', [

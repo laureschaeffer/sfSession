@@ -17,10 +17,16 @@
 #side-nav{
     display: flex;
     background-color: #456990;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    width: 10vw;
+
 }
 
 #side-nav ul{
     display: flex;
+    flex-direction: column;
 }
 
 #side-nav li{
@@ -34,6 +40,21 @@
 #side-nav a{
     color: white;
 }
+
+#top-nav{
+    margin-left: 11vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+
+/* mainpage avec margin de la taille de la side-nav, pour decaller  */
+#main-page{
+    margin-left: 10vw;
+}
+
 
 /* ---------------general */
 
