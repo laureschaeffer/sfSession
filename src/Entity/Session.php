@@ -180,9 +180,21 @@ class Session
     public function getDuree()
     {
         $interval = $this->dateFin->diff($this->dateDebut);
-        return $interval;
-        // var_dump($date1 < $date2);
-        // $interval = date_diff($this->dateDebut, $this->dateFin, $absolute = false);
+
+        $result="";
+        //si l'interval contient une année
+        if($interval->format('%y') != 0){
+            $result .= $interval->format('%y') . " an";
+        }
+        //si l'interval contient des mois
+        if($interval->format('%m') != 0){
+            $result .= " " .$interval->format('%m') . " mois";
+        }
+        //si l'interval contient des jours
+        if($interval->format('%d') != 0){
+            $result .= " " .$interval->format('%d') . " jours";
+        }
+        return $result;
         //"d" pour le nombre de jours pas contenu dans le calcul d'un mois, "a" pour le nombre de jours total
     }
 

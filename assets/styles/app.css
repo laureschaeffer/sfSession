@@ -92,7 +92,7 @@
 /* ----------listes */
 
 
-h1{
+h2{
     padding: var(--main--espace) 0;
 }
 
@@ -120,7 +120,7 @@ h1{
 }
 
 
-#session-detail h2, #session-detail h3{
+#session-detail h3{
     border-top: solid 1px black;
     border-bottom: solid 1px black;
     border-left: solid 5px #456990 ;

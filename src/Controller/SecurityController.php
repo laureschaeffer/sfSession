@@ -71,9 +71,21 @@ class SecurityController extends AbstractController
 
     //profil utilisateur
     #[Route('/profil', name: 'app_profil')]
-    // #[Route(path: '/profil', name: 'app_profil')]
     public function profil() : Response
     {
         return $this->render('profil.html.twig');
+    }
+
+    //supprimer son compte
+    #[Route('/profil/{id}/delete', name: 'delete_profil')]
+    public function deleteAccount(User $user, EntityManagerInterface $entityManager){
+        
+
+        $entityManager->remove($user); //prepare
+        $entityManager->flush(); //execute
+
+         //redirection
+         $this->addFlash('success', 'Profil supprimé');
+         return $this->redirectToRoute('app_session');
     }
 }

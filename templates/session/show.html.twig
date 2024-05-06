@@ -8,24 +8,24 @@
 {% block body %}
 
 <section id="session-detail">
-    <h1>{{ session}}</h1>
+    <h2>{{ session}}</h2>
     <p>Détail de la session</p>
     <div id="session-info">
       <div class="session-programme">
-        {# programme  #}
+        {# -------------------------------------------------programme  #}
         {% for programme in session.programmes %}
           <p>{{programme.info}} jours
           <a href="{{ path('delete_programme', {'id': programme.id}) }}"><i class="fa-solid fa-x"></i></a>
           </p>
         {% endfor %}
         {# diagramme  #}
-        <div class="diagramme">
+        {# <div class="diagramme">
           <div class="creux">
           </div>
-        </div>
+        </div> #}
       </div>
       <div class="session-info-general">
-        {# infos  #}
+        {# ------------------------------------------------- infos  #}
         <p><i class="fa-solid fa-chevron-right"></i>Du {{session.dateDebut | date("d.m.Y")}} au {{session.dateFin | date("d.m.Y")}} </p>
         {# au moins 2 modules, pour la conjugaison  #}
         {% if session.programmes|length > 1 %}
@@ -33,7 +33,7 @@
           {% else %}
           <p><i class="fa-solid fa-chevron-right"></i><span class="nb-green">{{session.programmes|length}}</span> module</p>
         {% endif %} 
-        <p><i class="fa-solid fa-chevron-right"></i>Durée: {{ session.duree | date("%m")}} mois</p>
+        <p><i class="fa-solid fa-chevron-right"></i>Durée: {{ session.duree }}</p>
 
         {# au moins 2 places restantes, pour la conjugaison  #}
         {% if session.nbDispo > 1 %}
@@ -50,36 +50,41 @@
     </div>
     
     <p><a href="{{ path('edit_session', {'id': session.id}) }}">Modifier info</a></p>
-    {# stagiaires inscrits #}
-    <h2>Stagiaires inscrits</h2>
-    <table class="table table-striped">
-        <thead>
-          <tr class="table-dark">
-            <th scope="col">#</th>
-            <th scope="col">Prénom</th>
-            <th scope="col">Nom</th>
-            <th scope="col">Téléphone</th>
-            <th scope="col">Ville</th>
-            <th scope="col"></th>
+    {#  -------------------------------------------------stagiaires inscrits #}
+    <h3>Stagiaires inscrits</h3>
+    {% if session.inscription is empty %}
+      <p>Aucun stagiaire inscrit</p>
+      {% else %}
+      <table class="table table-striped">
+          <thead>
+            <tr class="table-dark">
+              <th scope="col">#</th>
+              <th scope="col">Prénom</th>
+              <th scope="col">Nom</th>
+              <th scope="col">Téléphone</th>
+              <th scope="col">Ville</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {# index  #}
+            {% set i = 0 %}
+          {% for stagiaire in session.inscription %}
+            {% set i = i + 1 %}
+          <tr>
+              <td>{{i}}</td>
+              <td><a href=" {{ path('show_stagiaire', {'id': stagiaire.id})}}  ">{{ stagiaire.prenom }}</a></td>
+              <td>{{stagiaire.nom}}</td>
+              <td>{{stagiaire.telephone}}</td>
+              <td>{{stagiaire.ville}}</td>
+              <td><a href="{{ path('remove_stagiaire_session', {'idStagiaire': stagiaire.id, 'idSession': session.id}) }}"><i class="fa-solid fa-xmark"></i></a></td>
           </tr>
-        </thead>
-        <tbody>
-          {# index  #}
-          {% set i = 0 %}
-        {% for stagiaire in session.inscription %}
-          {% set i = i + 1 %}
-        <tr>
-            <td>{{i}}</td>
-            <td><a href=" {{ path('show_stagiaire', {'id': stagiaire.id})}}  ">{{ stagiaire.prenom }}</a></td>
-            <td>{{stagiaire.nom}}</td>
-            <td>{{stagiaire.telephone}}</td>
-            <td>{{stagiaire.ville}}</td>
-            <td><a href="{{ path('remove_stagiaire_session', {'idStagiaire': stagiaire.id, 'idSession': session.id}) }}"><i class="fa-solid fa-xmark"></i></a></td>
-        </tr>
-        
-    {% endfor %}
-        </tbody>
-    </table>
+          
+      {% endfor %}
+          </tbody>
+      </table>
+
+    {% endif %}
     {% if session.nbDispo > 0 %}
       <h3>Stagiaires non inscrits </h3>
 

@@ -6,11 +6,12 @@
 
 {% block body %}
 
-<h1>Ton profil</h1>
+<h2>Ton profil</h2>
 
 
 <p>Email : {{ app.user.email}} </p>
 <p>Pseudo : {{app.user }} </p>
+<p>Role : {{app.user.roleStr}}</p>
 
-
+<a href="{{path('delete_profil', {'id': app.user.id})}}">Supprimer son compte</a>
 {% endblock %}

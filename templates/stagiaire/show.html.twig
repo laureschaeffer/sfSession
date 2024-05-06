@@ -7,16 +7,21 @@
 {% block body %}
 
 <section id="stagiaire-detail">
-    <h1>Détail d'un stagiaire</h1>
+    <h2>Détail d'un stagiaire</h2>
+    <p><strong>{{stagiaire}}</strong></p>
+    <div id="stagiaire-info">
+        <div class="stagiaire-info-generale">
+            <p><strong>Sexe:</strong> {{stagiaire.sexe}}</p>
+            <p><strong>Ville:</strong> {{stagiaire.ville}}</p>
+            <p><strong>Date de naissance:</strong> {{stagiaire.dateNaissance | date("d.m.Y")}}</p>
+        </div>
+        <div class="stagiaire-info-contact">
+            <p><strong>Téléphone:</strong> {{ stagiaire.telephone }}</p>
+            <p><strong>Mail:</strong> {{ stagiaire.mail }}</p>
+        </div>
+    </div>
     
-    <p>{{stagiaire}}</p>
-    <p>Sexe: {{stagiaire.sexe}}</p>
-    <p>Ville: {{stagiaire.ville}}</p>
-    <p>Date de naissance: {{stagiaire.dateNaissance | date("d.m.Y")}}</p>
-    <p>Téléphone: {{ stagiaire.telephone }}</p>
-    <p>Mail: {{ stagiaire.mail }}</p>
-    
-    <h2>Sessions prévues</h2>
+    <h3>Sessions prévues</h3>
     
     {# collections de sessions  #}
     {% for session in stagiaire.sessions %}
@@ -27,7 +32,7 @@
     {# si connecté et si admin  #}
 
     {% if app.user and app.user.roles[0] == "ROLE_ADMIN" %}
-        <button type="button" class="btn btn-warning"><a href="{{ path('delete_stagiaire', {'id': stagiaire.id}) }}">Delete</a></button>
+        <a href="{{ path('delete_stagiaire', {'id': stagiaire.id}) }}" class="add-btn"><button>Delete</button></a>
   {% endif %}
 
     
