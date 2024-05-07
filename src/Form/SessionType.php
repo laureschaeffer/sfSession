@@ -2,10 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Entity\Session;
 use App\Entity\Formation;
 use App\Entity\Stagiaire;
 use App\Form\ProgrammeType;
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -52,6 +55,20 @@ class SessionType extends AbstractType
             ->add('formation', EntityType::class, [
                 'class' => Formation::class,
                 // 'choice_label' => 'id',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            //pour que le select ne propose que les users qui ont le role de formateur
+            // https://symfony.com/doc/current/reference/forms/types/entity.html#using-a-custom-query-for-the-entities
+            //SELECT * FROM user WHERE roles LIKE "%FORMATEUR%"
+            ->add('user', EntityType::class, [
+                'class' => User::class,
+                'label' => 'Prof référent',
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('u')
+                        ->where('u.roles LIKE \'%FORMATEUR%\'');
+                },
                 'attr' => [
                     'class' => 'form-control'
                 ]

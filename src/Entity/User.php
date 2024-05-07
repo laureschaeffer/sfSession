@@ -137,6 +137,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getFormateurs()
+    {
+        return $this->formateurs;
+    }
+
+
+    public function setFormateurs($formateurs)
+    {
+        $this->formateurs = $formateurs;
+
+        return $this;
+    }
+
     public function __toString(){
         return $this->pseudo;
     }
@@ -153,4 +166,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
         return strtolower($result);
     }
+
+
 }

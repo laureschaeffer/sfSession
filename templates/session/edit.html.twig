@@ -8,34 +8,33 @@
 
 <h2>Modifier une session</h2>
 
-{# {{ form_start(form) }} #}
+{{ form_start(form) }}
 
 
 <div class="row">
     
-    {{ form(form) }}
     
-    {# {{ form_row(form.formation) }} #}
+    {{ form_row(form.formation) }}
     
     <div class="col-sm">
-        {# {{ form_row(form.dateDebut) }} #}
+        {{ form_row(form.dateDebut) }}
     </div>
     <div class="col-sm">
-        {# {{ form_row(form.dateFin) }} #}
+        {{ form_row(form.dateFin) }}
     </div>
-    {# {{ form_row(form.nbPlace) }} #}
-    {# {{ form_row(form.formateurs) }} #}
+    {{ form_row(form.nbPlace) }}
+    {{ form_row(form.user) }}
     
 
     {# <h2>Programme</h2>
-    {% for module in form.programmes %}
+     {% for module in form.programmes %} 
         {{ form_row(module.module) }}
         {{ form_row(module.duree) }}
     <hr>
     {% endfor %} #}
 
-    {# {{ form_row(form.Valider) }} #}
-    {# {{ form_end(form) }} #}
+    {{ form_row(form.Valider) }}
+    {{ form_end(form) }}
 </div>
 
 {% endblock %}

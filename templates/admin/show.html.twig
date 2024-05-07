@@ -1,0 +1,31 @@
+{# detail d'un user  #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Détail d'un utilisateur{% endblock %}
+
+{% block body %}
+
+<section id="user-detail">
+    <h2>Détail de l'utilisateur</h2>
+    <p><b>Pseudo: </b>{{user}}</p>
+    <p><b>Email: </b>{{user.email}}</p>
+    <p><b>Rôle(s): </b>{{user.roleStr}}</p>
+
+    
+    {% if "ROLE_FORMATEUR" in user.roles %}
+        <h3>Session en tant que formateur référent</h3>
+        
+        {% if user.formateurs is empty %}
+            <p>Aucune formation</p>
+        {% else %}
+            {% for session in user.formateurs %}
+            <p><a href="{{path('show_session', {'id': session.id})}}">{{ session }}</a> ({{session.dateDebut | date("d.m.Y")}} - {{session.dateFin | date("d.m.Y")}})</p>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+</section>
+
+
+
+{% endblock %}

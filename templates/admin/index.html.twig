@@ -5,8 +5,6 @@
 {% block body %}
 
 <h2>Liste des utilisateurs</h2>
-
-
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -23,7 +21,7 @@
             {% if user != app.user %}
                 <tr>
                     <th scope="row">{{user.id}}</th>
-                    <td>{{user}}</td>
+                    <td><a href="{{ path('show_user', {'id': user.id}) }}">{{user}}</a></td>
                     <td>{{user.email}}</td>
                     <td>{{user.roleStr}}</td>
                     <td><a href="{{path('upgrade_role', {'id': user.id})}}">Changer</a></td>     

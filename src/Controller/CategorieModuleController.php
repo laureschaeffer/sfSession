@@ -33,6 +33,13 @@ class CategorieModuleController extends AbstractController
     #[Route('/categorie/new', name: 'new_categorie')]
     public function new_cat(CategorieRepository $categorieRepository, Request $request, EntityManagerInterface $entityManager)
     {
+        // if($this->isGranted('ROLE_USER')){
+
+
+        // } else {
+        //     $this->addFlash('error', 'Vous n\'avez pas l\'autorisation d\'effectuer cette action.');
+        //     $this->redirectToRoute('app_session');
+        // }
         //crée une categorie
         $categorie = new Categorie();
         // $module = new Module();
@@ -52,14 +59,6 @@ class CategorieModuleController extends AbstractController
             $entityManager->persist($categorie); //prepare
             $entityManager->flush(); //execute
 
-            // if($module && $formModule->isSubmitted() && $formModule->isValid()){
-            //     $module = $formModule->getData();
-            //     var_dump("test"); die;
-
-            //     $entityManager->persist($module);
-            //     $entityManager->flush();
-            // }
-
 
             //redirige vers la liste des categories
             $this->addFlash('success', 'Catégorie \''. $categorie->getNom() .'\' créée');
@@ -69,7 +68,6 @@ class CategorieModuleController extends AbstractController
         //renvoie la vue
         return $this->render('categorie/new.html.twig', [
             'formAddCategorie' => $formCat
-            // 'formAddModule' => $formModule
         ]);
 
     }
@@ -86,7 +84,7 @@ class CategorieModuleController extends AbstractController
         return $this->redirectToRoute('app_categorie');
     }
 
-    // //-----------------------------------------------------module--------------------------------------------------------
+    //-----------------------------------------------------module--------------------------------------------------------
     //liste des modules
     #[Route('/module', name: 'app_module')]
     public function listModule(ModuleRepository $moduleRepository): Response

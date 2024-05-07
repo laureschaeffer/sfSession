@@ -47,4 +47,20 @@ class AdminController extends AbstractController
         $this->addFlash('success', 'Role changé');
         return $this->redirectToRoute('app_admin');
     }
+
+    //detail d'un user avec ses roles et les sessions où il est formateur référent, s'il y en a
+    #[Route('/admin/{id}', name: 'show_user')]
+    public function show(User $user=null): Response
+    {
+        //si l'id passé dans l'url existe; possible comme je mets user en null par defaut en argument, sinon erreur
+        if($user){
+            return $this->render('admin/show.html.twig', [
+                'user' => $user
+            ]);
+        } else {
+            $this->addFlash('error', 'Cet utilisateur n\'existe pas');
+            return $this->redirectToRoute('app_admin');
+        }
+    }
+
 }
