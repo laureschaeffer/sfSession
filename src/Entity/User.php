@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -10,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'Cet e-mail est déjà utilisé')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -35,6 +37,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $pseudo = null;
+
+    /**
+     * @var Collection<int, Session>
+     */
+    //certains user qui ont le role formateur pourront etre référent d'une session
+    #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'user')]
+    private Collection $formateurs;
+
+    public function __construct()
+    {
+        $this->formateurs = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -129,8 +143,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     //donne le role d'un user sous la forme "user" ou "admin"
     public function getRoleStr(){
-        $roleArray = $this->getRoles(); //j'utilise le getter car il permet d'avoir au moins ROLE_USER
-        $roleStr = explode("_", $roleArray[0]); //decoupe la phrase ROLE_USER dans le tableau à l'index 0 (le reel role)
-        return strtolower($roleStr[1]);
+        //j'utilise le getter car il permet d'avoir au moins ROLE_USER
+        foreach($this->getRoles() as $role){
+            $roleArray []= explode("_", $role); //recupere un tableau avec index 0 "role" et index 1 admin/user/formateur
+        }
+        $result = "";
+        foreach($roleArray as $r){
+            $result .= $r[1] . " ";
+        }
+        return strtolower($result);
     }
 }

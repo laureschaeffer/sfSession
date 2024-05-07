@@ -46,6 +46,13 @@ class Session
     #[ORM\OrderBy(["module" => "ASC"])] //rajout d'un order by à la collection
     private Collection $programmes;
 
+    //chaque session aura un formateur (User.roles['role_formateur]) référent
+    // #[ORM\Column(type: Types::OBJECT, nullable: true)]
+    // private ?object $User = null;
+
+    #[ORM\ManyToOne(inversedBy: 'formateurs')]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->inscription = new ArrayCollection();
@@ -171,7 +178,19 @@ class Session
         return $this;
     }
 
-    //probablement à changer
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+
     public function __toString(){
         return $this->formation;
     }

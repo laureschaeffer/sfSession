@@ -6,7 +6,6 @@
 {% block title %}Détail d'une session{% endblock %}
 
 {% block body %}
-
 <section id="session-detail">
     <h2>{{ session}}</h2>
     <p>Détail de la session</p>
@@ -24,8 +23,8 @@
           </div>
         </div> #}
       </div>
+      {# ------------------------------------------------- infos  #}
       <div class="session-info-general">
-        {# ------------------------------------------------- infos  #}
         <p><i class="fa-solid fa-chevron-right"></i>Du {{session.dateDebut | date("d.m.Y")}} au {{session.dateFin | date("d.m.Y")}} </p>
         {# au moins 2 modules, pour la conjugaison  #}
         {% if session.programmes|length > 1 %}
@@ -45,7 +44,8 @@
           </div>
           {% else %}
           <p><i class="fa-solid fa-chevron-right"></i><span class="nb-green">1</span> place restante</p>
-        {% endif %}
+          {% endif %}
+          <p><i class="fa-solid fa-chevron-right"></i>Formateur référent: <a href="{{ path('show_stagiaire', {'id': session.user.id})}}">{{ session.user }}</a></p>
       </div>
     </div>
     

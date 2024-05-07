@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Entity\Session;
 use App\Entity\Formation;
 use App\Entity\Stagiaire;
@@ -39,6 +40,12 @@ class EditSessionType extends AbstractType
             ->add('formation', EntityType::class, [
                 'class' => Formation::class,
                 // 'choice_label' => 'id',
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
+            ->add('user', EntityType::class, [
+                'class' => User::class,
                 'attr' => [
                     'class' => 'form-control'
                 ]
