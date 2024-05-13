@@ -18,9 +18,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\ExpressionLanguage\Expression;
 
 
 class SessionFormationController extends AbstractController
@@ -82,33 +81,41 @@ class SessionFormationController extends AbstractController
 
 
     
-    //modifie la session
+    //modifie la session, accessible aux admins et la personne qui a créée sa session
     #[Route('/session/{id}/edit', name: 'edit_session')] 
-    public function edit(Session $session, SessionRepository $sessionRepository, EntityManagerInterface $entityManager, Request $request){
+    public function editSession(Session $session, SessionRepository $sessionRepository, EntityManagerInterface $entityManager, Request $request, UserInterface $user){
 
-        //crée le form
-        $form = $this->createForm(EditSessionType::class, $session);
+        //$user correspond à la personne connectée
+        if($session->getUser() == $user || $this->isGranted('ROLE_ADMIN')){
+            
+            //crée le form
+            $form = $this->createForm(EditSessionType::class, $session);
+        
+            //prend en charge
+            $form->handleRequest($request);
+        
+            if($form->isSubmitted() && $form->isValid()){
+                //récupère les données du formulaire 
+                $session = $form->getData();
     
-        //prend en charge
-        $form->handleRequest($request);
+                $entityManager->persist($session); //prepare
+                $entityManager->flush(); //execute
     
-        if($form->isSubmitted() && $form->isValid()){
-            //récupère les données du formulaire 
-            $session = $form->getData();
+                //notif et redirige vers le detail de la session
+                $this->addFlash('success', 'Session bien modifiée');
+                return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);      
+            }
+    
+            //renvoie la vue
+            return $this->render('session/edit.html.twig', [
+                'form' => $form,
+                'sessionId' => $session->getId()
+            ]);
 
-            $entityManager->persist($session); //prepare
-            $entityManager->flush(); //execute
-
-            //notif et redirige vers le detail de la session
-            $this->addFlash('success', 'Session bien modifiée');
-            return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);      
+        } else {
+            $this->addFlash('error', 'Vous n\'avez pas l\'autorisation d\'effectuer cette action.');
+            return $this->redirectToRoute('show_session', ['id'=>$session->getId()]); 
         }
-
-        //renvoie la vue
-        return $this->render('session/edit.html.twig', [
-            'form' => $form,
-            'sessionId' => $session->getId()
-        ]);
          
     }
 
@@ -196,7 +203,7 @@ class SessionFormationController extends AbstractController
 
 
     //supprimer un programme d'une session
-    #[Route('/session/{id}/deleteProgramme', name: 'delete_programme')] 
+    #[Route('/session/{id}/removeProgramme', name: 'remove_programme')] 
     public function deleteProgramme(Programme $programme, EntityManagerInterface $entityManager){
         
         $entityManager->remove($programme); //prepare la requete
@@ -224,7 +231,7 @@ class SessionFormationController extends AbstractController
 
     //detail d'une session
     #[Route('/session/{id}', name: 'show_session')]
-    public function show(Session $session = null, SessionRepository $sessionRepository): Response
+    public function showSession(Session $session = null, SessionRepository $sessionRepository): Response
     {
         //si l'id passé dans l'url existe; possible comme je mets session en null par defaut en argument, sinon erreur
         if($session){
@@ -254,12 +261,18 @@ class SessionFormationController extends AbstractController
         ]);
     }
 
-    //crée une nouvelle formation
-    #[Route('/formation/newFormation', name: 'new_formation')]
-    public function newFormation(FormationRepository $formationRepository, EntityManagerInterface $entityManager, Request $request)
+    //crée une nouvelle formation ou modifie une existante
+    #[Route('/formation/newFormation', name: 'new_formation')] //ajout
+    #[Route('/formation/{id}/edit', name: 'edit_formation')] //pour modif
+    public function newFormation(Formation $formation=null, FormationRepository $formationRepository, EntityManagerInterface $entityManager, Request $request)
     {
-        
-        $formation = new Formation();
+        //si la formation n'a pas été trouvée on en crée un nouveau
+        if(!$formation){
+            $formation = new Formation();
+            $text = "créé"; //pour le message de succes
+        } else {
+            $text= "modifié";
+        }
 
         //crée le form
         $form = $this->createForm(FormationType::class, $formation);
@@ -275,16 +288,36 @@ class SessionFormationController extends AbstractController
             $entityManager->flush(); //execute
 
             //notif et redirige vers la liste des formations
-            $this->addFlash('success', 'Formation créée');
+            $this->addFlash('success', 'Formation \''. $formation->getNom() .'\' '. $text);
             return $this->redirectToRoute("app_formation");
         }
 
         //renvoie la vue
         return $this->render('formation/new.html.twig', [
-            'form' => $form
+            'form' => $form,
+            //s'il reçoit l'id, il le renvoie et donc on est sur la modification, sinon il renvoie false et on est sur l'ajout
+            'edit' => $module->getId()
         ]);
 
 
     }
+
+    //detail d'une formation
+    #[Route('/formation/{id}', name: 'show_formation')]
+    public function showFormation(Formation $formation = null, FormationRepository $formationRepository): Response
+    {
+        //si l'id passé dans l'url existe; possible comme je mets formation en null par defaut en argument, sinon erreur
+        if($formation){
+            
+            return $this->render('formation/show.html.twig', [
+                'formation' => $formation
+            ]);
+
+        } else {
+            $this->addFlash('error', 'Formation inexistante');
+            return $this->redirectToRoute('app_formation');
+        }
+    }
+
 
 }

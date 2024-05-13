@@ -39,14 +39,14 @@
                         <li><a href="{{ path('app_stagiaire')}}">Stagiaires</a><i class="fa-solid fa-chevron-right"></i></li>
                         <hr>
                         {# si connecté et si admin  #}
-                        {% if app.user and app.user.roles[0] == "ROLE_ADMIN" %}
-                        <li><i class="fa-solid fa-chart-line"></i><a href="{{ path('app_admin') }}">Dashboard</a></li>
+                        {% if app.user and "ROLE_ADMIN" in app.user.roles %}
+                        <li><i class="fa-solid fa-chart-line"></i><a href="{{ path('app_admin') }}">Pannel admin</a></li>
                         <hr>
                         {% endif %}
 
                         {# si connecté  #}
                         {% if app.user %}
-                        <li><i class="fa-solid fa-arrow-right-from-bracket"></i><a href="{{ path('app_logout') }}">Logout</a></li>
+                        <li><i class="fa-solid fa-arrow-right-from-bracket"></i><a href="{{ path('app_logout') }}">Déconnecter</a></li>
                         {% endif %}
                     </ul>
                 </nav>
@@ -55,7 +55,7 @@
                     <h1>Adminify</h1>
                     {# barre de recherche, possibilite de faire un formulaire a la main  #}
                     <form action="{{ path('app_search')}}" method="GET" id="search-bar">
-                        <i class="fa-solid fa-magnifying-glass"></i> <input type="search" class="search" name="search" placeholder="Search">
+                        <i class="fa-solid fa-magnifying-glass"></i> <input type="search" class="search" name="search" placeholder="Recherche">
                         <button type="submit" name="submit">Valider</button>
                     </form>
                         {# si l'utilisateur est connecté  #}
@@ -63,8 +63,8 @@
                         <a href="{{ path('app_profil') }}"><i class="fa-regular fa-user"></i>{{ app.user }}</a>
             
                         {% else %}
-                            <a href="{{ path('app_register') }}">Register</a>
-                            <a href="{{ path('app_login') }}">Login</a>
+                            <a href="{{ path('app_register') }}">S'inscrire</a>
+                            <a href="{{ path('app_login') }}">Se connecter</a>
                         {% endif %}
                     </nav>
             </header>

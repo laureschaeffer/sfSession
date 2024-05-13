@@ -24,14 +24,15 @@
   <tr>
       <td>{{i}} </td>
       {% set i = i + 1 %}
-              <td>{{ formation }}</td>
-  
+              <td><a href="{{ path('show_formation', {'id': formation.id}) }}">{{formation}}</a></td>
           </tr>
   {% endfor %}
       </tbody>
   </table>
 
-  <p><a class="add-btn" href="{{ path('new_formation') }}"><button>Créer une formation</button></a></p>
+  {% if app.user %}
+    <p><a class="add-btn" href="{{ path('new_formation') }}"><button>Créer une formation</button></a></p>
+  {% endif %}
 
 </section>
 

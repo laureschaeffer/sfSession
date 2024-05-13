@@ -22,6 +22,7 @@ class Formation
      * @var Collection<int, Session>
      */
     #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'formation')]
+    #[ORM\OrderBy(["dateDebut" => "DESC"])] //rajout d'un order by à la collection
     private Collection $sessions;
 
     public function __construct()

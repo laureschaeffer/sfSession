@@ -9,6 +9,7 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+    enable_authenticator_manager: true
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -29,8 +30,8 @@ security:
                 # by default, the feature is enabled by checking a checkbox in the
                 # login form, uncomment the following line to always enable it.
                 #always_remember_me: true
-            entry_point: App\Security\AuthenticationEntryPoint
-            access_denied_handler: App\Security\AccessDeniedHandler
+            # entry_point: App\Security\AuthenticationEntryPoint
+            # access_denied_handler: App\Security\AccessDeniedHandler
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -39,12 +40,12 @@ security:
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
+    # Prepending the path with ^ means that only URLs beginning with the pattern are matched. For example, a path of /admin (without the ^) would match /admin/foo but would also match URLs like /foo/admin.
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profil, roles: ROLE_USER }
-        - { route: delete_, roles: ROLE_ADMIN }
-        - { route: edit_, roles: ROLE_ADMIN }
-        - { route: new_, roles: ROLE_USER }
+        - { route: delete, roles: ROLE_ADMIN }
+        - { route: new, roles: ROLE_USER }
 
 when@test:
     security:

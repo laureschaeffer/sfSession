@@ -16,10 +16,10 @@
     {% if "ROLE_FORMATEUR" in user.roles %}
         <h3>Session en tant que formateur référent</h3>
         
-        {% if user.formateurs is empty %}
+        {% if user.sessionFormateurs is empty %}
             <p>Aucune formation</p>
         {% else %}
-            {% for session in user.formateurs %}
+            {% for session in user.sessionFormateurs %}
             <p><a href="{{path('show_session', {'id': session.id})}}">{{ session }}</a> ({{session.dateDebut | date("d.m.Y")}} - {{session.dateFin | date("d.m.Y")}})</p>
             {% endfor %}
         {% endif %}

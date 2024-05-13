@@ -31,7 +31,7 @@
     {% endfor %}
     {# si connecté et si admin  #}
 
-    {% if app.user and app.user.roles[0] == "ROLE_ADMIN" %}
+    {% if app.user and "ROLE_ADMIN" in app.user.roles %}
         <a href="{{ path('delete_stagiaire', {'id': stagiaire.id}) }}" class="add-btn"><button>Delete</button></a>
   {% endif %}
 

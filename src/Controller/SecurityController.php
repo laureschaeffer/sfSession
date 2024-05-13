@@ -14,6 +14,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Authenticator\AuthenticatorInterface;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class SecurityController extends AbstractController
 {
@@ -41,7 +43,7 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager): Response
+    public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, Security $security, EntityManagerInterface $entityManager, UserAuthenticatorInterface $authenticator, AuthenticatorInterface $auth): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -56,13 +58,18 @@ class SecurityController extends AbstractController
                 )
             );
 
+            // $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user); //prepare
             $entityManager->flush(); //execute
 
             // do anything else you need here, like send an email
 
             // return $security->login($user, AppAuthenticator::class, 'main');
-            return $this->redirectToRoute("app_login"); 
+            //permet de se connecter automatiquement après le register
+            return $authenticator->authenticateUser(
+                $user,
+                $auth,
+                $request); 
         }
 
         return $this->render('registration/register.html.twig', [

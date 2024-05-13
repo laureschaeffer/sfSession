@@ -50,7 +50,7 @@ class Session
     // #[ORM\Column(type: Types::OBJECT, nullable: true)]
     // private ?object $User = null;
 
-    #[ORM\ManyToOne(inversedBy: 'formateurs')]
+    #[ORM\ManyToOne(inversedBy: 'session_formateurs')]
     private ?User $user = null;
 
     public function __construct()

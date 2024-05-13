@@ -17,7 +17,6 @@
           <th scope="col">Nom</th>
           <th scope="col">Téléphone</th>
           <th scope="col">Ville</th>
-          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -27,14 +26,20 @@
               <td><a href=" {{ path('show_stagiaire', {'id': stagiaire.id})}}  ">{{ stagiaire.prenom }}</a></td>
               <td>{{ stagiaire.nom }}</td>
               <td>{{ stagiaire.telephone }}</td>
-              <td>{{ stagiaire.ville }}</td>
-              <td><a href="{{ path('edit_stagiaire', {'id': stagiaire.id}) }}">Modifier</a></td>
+              <td>{{ stagiaire.ville }}
+                {# si connecté et admin  #}
+                {% if app.user and "ROLE_ADMIN" in app.user.roles %}
+                  <a href="{{ path('edit_stagiaire', {'id': stagiaire.id}) }}">Modifier</a>
+                {% endif %}
+            </td>
           </tr>
           
           {% endfor %}
       </tbody>
   </table>
 
-  <a class="add-btn" href="{{ path('new_stagiaire') }}"><button>Créer un stagiaire</button></a>
+  {% if app.user %}
+    <a class="add-btn" href="{{ path('new_stagiaire') }}"><button>Créer un stagiaire</button></a>
+  {% endif %}
 </section>
 {% endblock %}

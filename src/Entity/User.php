@@ -43,11 +43,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     //certains user qui ont le role formateur pourront etre référent d'une session
     #[ORM\OneToMany(targetEntity: Session::class, mappedBy: 'user')]
-    private Collection $formateurs;
+    private Collection $session_formateurs;
 
     public function __construct()
     {
-        $this->formateurs = new ArrayCollection();
+        $this->session_formateurs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -137,15 +137,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getFormateurs()
+    public function getSessionFormateurs()
     {
-        return $this->formateurs;
+        return $this->session_formateurs;
     }
 
 
-    public function setFormateurs($formateurs)
+    public function setFormateurs($session_formateurs)
     {
-        $this->formateurs = $formateurs;
+        $this->session_formateurs = $session_formateurs;
 
         return $this;
     }
