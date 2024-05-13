@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `categorie` (
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table session_laure.categorie : ~6 rows (environ)
-INSERT INTO `categorie` (`id`, `nom`) VALUES
+INSERT IGNORE INTO `categorie` (`id`, `nom`) VALUES
 	(1, 'Développement web'),
 	(2, 'Bureautique'),
 	(5, 'Anglais'),
@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `formation` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table session_laure.formation : ~3 rows (environ)
-INSERT INTO `formation` (`id`, `nom`) VALUES
+INSERT IGNORE INTO `formation` (`id`, `nom`) VALUES
 	(1, 'Developpement web backend'),
 	(2, 'Concepteur développeur d\'applications'),
 	(3, 'Developpement web fronted');
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `module` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table session_laure.module : ~7 rows (environ)
-INSERT INTO `module` (`id`, `categorie_id`, `nom`) VALUES
+INSERT IGNORE INTO `module` (`id`, `categorie_id`, `nom`) VALUES
 	(1, 1, 'PHP'),
 	(2, 1, 'SQL'),
 	(3, 1, 'Docker'),
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `programme` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Listage des données de la table session_laure.programme : ~6 rows (environ)
-INSERT INTO `programme` (`id`, `session_id`, `module_id`, `duree`) VALUES
+INSERT IGNORE INTO `programme` (`id`, `session_id`, `module_id`, `duree`) VALUES
 	(1, 1, 1, 40),
 	(2, 1, 2, 10),
 	(3, 1, 3, 2),
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `session` (
   `nb_place` int DEFAULT NULL,
   `date_debut` datetime DEFAULT NULL,
   `date_fin` datetime DEFAULT NULL,
-  `ouvert` tinyint(1) DEFAULT NULL,
+  `ouvert` tinyint(1) DEFAULT '1',
   `formation_id` int NOT NULL,
   `user_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -121,17 +121,18 @@ CREATE TABLE IF NOT EXISTS `session` (
   KEY `IDX_D044D5D4A76ED395` (`user_id`),
   CONSTRAINT `FK_D044D5D45200282E` FOREIGN KEY (`formation_id`) REFERENCES `formation` (`id`),
   CONSTRAINT `FK_D044D5D4A76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table session_laure.session : ~7 rows (environ)
-INSERT INTO `session` (`id`, `nb_place`, `date_debut`, `date_fin`, `ouvert`, `formation_id`, `user_id`) VALUES
+-- Listage des données de la table session_laure.session : ~8 rows (environ)
+INSERT IGNORE INTO `session` (`id`, `nb_place`, `date_debut`, `date_fin`, `ouvert`, `formation_id`, `user_id`) VALUES
 	(1, 20, '2024-04-17 10:55:37', '2024-08-17 10:55:38', 1, 1, 1),
 	(2, 2, '2024-04-18 00:00:00', '2024-11-11 00:00:00', 0, 2, 1),
 	(3, 50, '2025-01-10 00:00:00', '2025-10-11 00:00:00', 1, 1, 1),
 	(4, 20, '2025-01-15 00:00:00', '2025-02-15 00:00:00', 0, 1, 1),
 	(6, 10, '2023-01-01 00:00:00', '2024-01-01 00:00:00', 1, 2, 1),
 	(7, 11, '2026-01-15 00:00:00', '2027-01-15 00:00:00', 1, 2, 4),
-	(8, 20, '2025-01-01 00:00:00', '2026-05-10 00:00:00', 1, 3, 1);
+	(8, 20, '2025-01-01 00:00:00', '2026-05-10 00:00:00', 1, 3, 1),
+	(9, 12, '2024-08-13 00:00:00', '2024-09-21 00:00:00', 1, 3, 5);
 
 -- Listage de la structure de table session_laure. session_stagiaire
 CREATE TABLE IF NOT EXISTS `session_stagiaire` (
@@ -144,12 +145,14 @@ CREATE TABLE IF NOT EXISTS `session_stagiaire` (
   CONSTRAINT `FK_C80B23BBBA93DD6` FOREIGN KEY (`stagiaire_id`) REFERENCES `stagiaire` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table session_laure.session_stagiaire : ~4 rows (environ)
-INSERT INTO `session_stagiaire` (`session_id`, `stagiaire_id`) VALUES
+-- Listage des données de la table session_laure.session_stagiaire : ~0 rows (environ)
+INSERT IGNORE INTO `session_stagiaire` (`session_id`, `stagiaire_id`) VALUES
 	(1, 1),
 	(2, 1),
 	(2, 2),
-	(3, 2);
+	(3, 1),
+	(3, 2),
+	(9, 2);
 
 -- Listage de la structure de table session_laure. stagiaire
 CREATE TABLE IF NOT EXISTS `stagiaire` (
@@ -164,8 +167,8 @@ CREATE TABLE IF NOT EXISTS `stagiaire` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table session_laure.stagiaire : ~2 rows (environ)
-INSERT INTO `stagiaire` (`id`, `prenom`, `nom`, `sexe`, `date_naissance`, `ville`, `mail`, `telephone`) VALUES
+-- Listage des données de la table session_laure.stagiaire : ~0 rows (environ)
+INSERT IGNORE INTO `stagiaire` (`id`, `prenom`, `nom`, `sexe`, `date_naissance`, `ville`, `mail`, `telephone`) VALUES
 	(1, 'Laure', 'Schaeffer', 'F', '1999-01-01', 'Strasbourg', 'laure@exemple.fr', '0611223344'),
 	(2, 'Mickael', 'Murmann', 'M', '1999-01-01', 'Strasbourg', 'mickael@exemple.fr', '0612345678');
 
@@ -178,13 +181,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   `pseudo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UNIQ_IDENTIFIER_EMAIL` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Listage des données de la table session_laure.user : ~3 rows (environ)
-INSERT INTO `user` (`id`, `email`, `roles`, `password`, `pseudo`) VALUES
+-- Listage des données de la table session_laure.user : ~5 rows (environ)
+INSERT IGNORE INTO `user` (`id`, `email`, `roles`, `password`, `pseudo`) VALUES
 	(1, 'laure@exemple.fr', '["ROLE_ADMIN", "ROLE_FORMATEUR"]', '$2y$13$.zhdVAeU4IlH0wAkrz860O3KqiDCPte/XMCyO.RfHXt7zrIyVYzxW', 'laure'),
 	(2, 'person@test.fr', '[]', '$2y$13$yhw0KMrEf5JO5x6S6qSKk.pRGZuWbbn02w05kLfG6wtwOtT32ARTe', 'person'),
-	(4, 'sandra@exemple.fr', '["ROLE_ADMIN", "ROLE_FORMATEUR"]', '$2y$13$CmWCDR9fDKymS.Lr3ENuae.wLkWe96ZX/M9P61BCRyLeMXFOgIIzi', 'sandra');
+	(4, 'sandra@exemple.fr', '["ROLE_USER"]', '$2y$13$CmWCDR9fDKymS.Lr3ENuae.wLkWe96ZX/M9P61BCRyLeMXFOgIIzi', 'sandra'),
+	(5, 'micka_elan@exemple.com', '["ROLE_FORMATEUR"]', '$2y$13$MlG40/rVO/221IChxQsBUetectn8S3K0leZPV8ekOP2oym8T9n70S', 'mickael'),
+	(8, 'antoine@exemple.fr', '[]', '$2y$13$cxh91YGHiQft9fharRhU3ettqPhPu5eM20/tqBBdOPk3lKGrI6hRK', 'antoine');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
