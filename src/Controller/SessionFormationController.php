@@ -33,8 +33,15 @@ class SessionFormationController extends AbstractController
     {
         //SELECT * from session ORDER BY date_debut ASC || "dateDebut" est le nom dans l'entité, pas la bdd
         $sessions = $sessionRepository->findBy([], ["dateDebut" => "DESC"]);
+        $nextSessions = $sessionRepository->findAVenir(); //sessions à venir
+        $finishedSessions = $sessionRepository->findFini(); //sessions finies
+        $currentSession = $sessionRepository->findEnCours(); //sessions en cours
+
         return $this->render('session/index.html.twig', [
-            'sessions' => $sessions
+            'sessions' => $sessions,
+            'nextSessions' => $nextSessions,
+            'finishedSessions' => $finishedSessions,
+            'currentSession' => $currentSession
         ]);
     }
 
@@ -90,20 +97,28 @@ class SessionFormationController extends AbstractController
             
             //crée le form
             $form = $this->createForm(EditSessionType::class, $session);
-        
             //prend en charge
             $form->handleRequest($request);
-        
+
+            
             if($form->isSubmitted() && $form->isValid()){
                 //récupère les données du formulaire 
                 $session = $form->getData();
+
+                //si la nouvelle entrée du nb de place est supérieur ou égal au nb d'inscription
+                if($session->getNbPlace() >= $session->getNbInscription()){
+                    $entityManager->persist($session); //prepare
+                    $entityManager->flush(); //execute
+        
+                    //notif et redirige vers le detail de la session
+                    $this->addFlash('success', 'Session bien modifiée');
+                    return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);      
+                } else {
+                    //notif et redirige vers le detail de la session
+                    $this->addFlash('error', 'Le nombre de places est inférieur au nombre de stagiaires inscrits.');
+                    return $this->redirectToRoute('edit_session', ['id'=>$session->getId()]); 
+                }
     
-                $entityManager->persist($session); //prepare
-                $entityManager->flush(); //execute
-    
-                //notif et redirige vers le detail de la session
-                $this->addFlash('success', 'Session bien modifiée');
-                return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);      
             }
     
             //renvoie la vue
@@ -228,6 +243,36 @@ class SessionFormationController extends AbstractController
         
     }
 
+    //verrouille OU deverrouille une session, admin
+    #[Route('/session/{id}/lock', name: 'lock_session')]
+    public function lockSession(Session $session = null, EntityManagerInterface $entityManager){
+        //s'il trouve la session
+        if($session){
+
+            if($session->isOuvert()){
+                $session->setOuvert(false); //ferme la session
+
+                $entityManager->persist($session);
+                $entityManager->flush();
+
+                $this->addFlash('succes', 'Session verrouillée');
+                return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
+            } else {
+                $session->setOuvert(true); //ouvre la session
+
+                $entityManager->persist($session);
+                $entityManager->flush();
+
+                $this->addFlash('succes', 'Session ouverte');
+                return $this->redirectToRoute('show_session', ['id'=>$session->getId()]);
+            }
+
+        } else {
+            $this->addFlash('error', 'Session inexistante');
+            return $this->redirectToRoute('app_session');
+        }
+
+    }
 
     //detail d'une session
     #[Route('/session/{id}', name: 'show_session')]

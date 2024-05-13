@@ -40,8 +40,8 @@ class RegistrationFormType extends AbstractType
                 // 'options' => ['attr' => ['class' => 'password-field']],
                 'options' => ['attr' => ['class' => 'form-control']],
                 'required' => true,
-                'first_options'  => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repeat Password'],
+                'first_options'  => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Vérification du mot de passe'],
                 //contrainte pour la sécurité
                 'constraints' => [
                     new NotBlank([
@@ -61,6 +61,7 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
+                'label' => 'Conditions d\'utilisation',
                 'constraints' => [
                     new IsTrue([
                         'message' => 'Veuillez accepter nos conditions d\'utilisation'

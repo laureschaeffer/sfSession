@@ -15,11 +15,11 @@
 {% else %}
 <form method="post">
 
-    <h2>Sign in</h2>
+    <h2>Se connecter</h2>
     <label for="inputEmail">Email</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
 
-    <label for="inputPassword">Password</label>
+    <label for="inputPassword">Mot de passe</label>
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
     <input type="hidden" name="_csrf_token"
@@ -28,12 +28,12 @@
 
     <div class="checkbox mb-3">
         <label>
-            <input type="checkbox" name="_remember_me"> Remember me
+            <input type="checkbox" name="_remember_me"> Rester connecté
         </label>
     </div>
 
     <button type="submit">
-        Sign in
+        Entrer
     </button>
 </form>
 {% endif %}

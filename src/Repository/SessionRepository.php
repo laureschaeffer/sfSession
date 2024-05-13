@@ -47,7 +47,7 @@ class SessionRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    //     //recherche en fonction d'un mot clé dans les enregistrements dans la bdd
+    //recherche en fonction d'un mot clé dans les enregistrements dans la bdd
     public function findByWord($word) {
         $em = $this->getEntityManager();
 
@@ -61,6 +61,58 @@ class SessionRepository extends ServiceEntityRepository
             ->innerJoin('a.formation', 'f')
             ->where('f.nom LIKE :word')
             ->setParameter('word', '%'.$word.'%');
+
+        $query = $sub->getQuery();
+        return $query->getResult();
+    }
+
+    //trouve les sessions qui n'ont pas encoré commencé
+    public function findAVenir(){
+        $em = $this->getEntityManager();
+
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+
+        $qb->select('a')
+            ->from('App\Entity\Session', 'a')
+            ->where('a.dateDebut > CURRENT_TIMESTAMP()')
+            ->orderBy('a.dateDebut', 'ASC');
+
+        $query = $sub->getQuery();
+        return $query->getResult();
+    }
+
+    //trouve les sessions qui sont finies
+    public function findFini(){
+        $em = $this->getEntityManager();
+
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+
+        $qb->select('a')
+            ->from('App\Entity\Session', 'a')
+            ->where('a.dateFin < CURRENT_TIMESTAMP()')
+            ->orderBy('a.dateDebut', 'ASC');
+
+        $query = $sub->getQuery();
+        return $query->getResult();
+    }
+
+    //trouve les sessions en cours
+    public function findEnCours(){
+        $em = $this->getEntityManager();
+
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+
+        $qb->select('a')
+            ->from('App\Entity\Session', 'a')
+            ->where('a.dateDebut < CURRENT_TIMESTAMP()')
+            ->andWhere('CURRENT_TIMESTAMP() < a.dateFin')
+            ->orderBy('a.dateDebut', 'ASC');
 
         $query = $sub->getQuery();
         return $query->getResult();

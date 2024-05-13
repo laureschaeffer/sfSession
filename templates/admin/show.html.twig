@@ -24,6 +24,32 @@
             {% endfor %}
         {% endif %}
     {% endif %}
+
+    <hr>
+    <h3>Changer les rôles</h3>
+    {# comme il n'y a que 2 roles (et user par défaut), je vérifie à la main  #}
+    {% if "ROLE_FORMATEUR" in user.roles %}
+        {% set checkForma = 'checked' %}
+      {% else %}
+        {% set checkForma = '' %}
+    {% endif %}
+    {% if "ROLE_ADMIN" in user.roles %}
+        {% set checkAdm = 'checked' %}
+      {% else %}
+        {% set checkAdm = '' %}
+    {% endif %}
+
+    <form action="{{ path('upgrade_role', {'id': user.id})}}" method="get">
+        <p>
+            <input type="checkbox" id="formateur" name="roles[]" value="ROLE_FORMATEUR" {{checkForma}} />
+            <label for="formateur">Formateur</label>
+        </p>
+        <p>
+            <input type="checkbox" id="admin" name="roles[]" value="ROLE_ADMIN" {{checkAdm}}/>
+            <label for="admin">Admin</label>
+        </p>
+        <button type="submit" name="submit">Valider</button>
+    </form>
 </section>
 
 

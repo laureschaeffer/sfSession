@@ -45,6 +45,7 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/profil, roles: ROLE_USER }
         - { route: delete, roles: ROLE_ADMIN }
+        - { route: lock, roles: ROLE_ADMIN }
         - { route: new, roles: ROLE_USER }
 
 when@test:
