@@ -5,7 +5,7 @@
 {% block title %}Ajouter une session{% endblock %}
 
 {% block body %}
-<section id="sessions-new">
+<section class="sessions-form">
 
     <h2>Créer une nouvelle session</h2>
     <p>L'ajout des <b>stagiaires</b> se fait par la suite</p>
@@ -55,8 +55,10 @@
        
  
  </div>
- <div class="add-btn">
-     {{ form_row(form.Valider) }}
+ <div class="btn-container">
+     <div class="add-btn">
+         {{ form_row(form.Valider) }}
+     </div>
  </div>
  {{ form_end(form) }}
 

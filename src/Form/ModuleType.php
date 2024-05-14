@@ -24,6 +24,9 @@ class ModuleType extends AbstractType
             ])
             ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
+                'attr' => [
+                    'class' => 'form-control'
+                ],
                 'choice_label' => 'nom', //par défaut id
                 //permet de spécifier une requete personnalisée lors du fetch des entités, pour avoir le choix des catégories trié par nom 
                 // https://symfony.com/doc/current/reference/forms/types/entity.html#using-a-custom-query-for-the-entities

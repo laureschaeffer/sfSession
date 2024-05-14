@@ -17,16 +17,22 @@
 
 
 {# recupere le formulaire automatiquement  #}
-{{ form(formAddModule) }}
+{# {{ form(formAddModule) }} #}
 
 {# possibilité de detailler #}
 
-{# {{ form_start(formAddCategorie) }}
+{{ form_start(formAddModule) }}
 
-     {{ form_row(formAddCategorie.nom) }}
+     {{ form_row(formAddModule.nom) }}
+     {{ form_row(formAddModule.categorie) }}
 
- {{ form_row(formAddCategorie.Valider) }}
-{{ form_end(formAddCategorie) }} #}
+     <div class="btn-container">
+      <div class="add-btn">
+         {{ form_row(formAddModule.Valider) }}
+
+      </div>
+     </div>
+{{ form_end(formAddModule) }}
 
 
 {% endblock %}

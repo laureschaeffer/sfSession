@@ -6,74 +6,81 @@
 {% block title %}Détail d'une session{% endblock %}
 
 {% block body %}
+
 <section id="session-detail">
     <h2>{{ session}}</h2>
     <p>Détail de la session</p>
     <div id="session-info">
+      {# -----------------------------------------diagramme avec chart.js  #}
+      <div>
+        <canvas id="myChart"></canvas>
+      </div>
       <div class="session-programme">
         {# -------------------------------------------------programme  #}
         {% for programme in session.programmes %}
-          <p>{{programme.info}} jours
-            {% if app.user %}
-              <a href="{{ path('remove_programme', {'id': programme.id}) }}"><i class="fa-solid fa-x"></i></a>
-            {% endif %}
-          </p>
+        <p><span id="programme-module">{{programme.module}}</span>: <span id="programme-duree">{{programme.duree}}</span> jours
+          
+          {% if app.user %}
+            <a href="{{ path('remove_programme', {'id': programme.id}) }}"><i class="fa-solid fa-x"></i></a>
+          {% endif %}
+        </p>
         {% endfor %}
-        {# diagramme  #}
-        {# <div class="diagramme">
-          <div class="creux">
-          </div>
-        </div> #}
       </div>
       {# ------------------------------------------------- infos  #}
       <div class="session-info-general">
           {# si personne connectée est la personne qui a créé la session ou admin #}
-          {% if app.user == session.user or "ROLE_ADMIN" in app.user.roles %}
-            <p><a href="{{ path('edit_session', {'id': session.id}) }}"><i class="fa-solid fa-pen"></i></a></p>
-          {% endif %}
-          {# si la session est verrouillée  #}
-        {% if session.ouvert %}
-          {% else %}
-          <p><i class="fa-solid fa-chevron-right"></i><b>Fermée</b></p>
-        {% endif %}
-        <p><i class="fa-solid fa-chevron-right"></i>Du {{session.dateDebut | date("d.m.Y")}} au {{session.dateFin | date("d.m.Y")}} </p>
-        {# au moins 2 modules, pour la conjugaison  #}
-        {% if session.programmes|length > 1 %}
-          <p><i class="fa-solid fa-chevron-right"></i><span class="nb-green" id="nbModule">{{session.programmes|length}}</span> modules</p>
-          {% else %}
-          <p><i class="fa-solid fa-chevron-right"></i><span class="nb-green">{{session.programmes|length}}</span> module</p>
-        {% endif %} 
-        <p><i class="fa-solid fa-chevron-right"></i>Durée: {{ session.duree }}</p>
-
-        {# au moins 2 places restantes, pour la conjugaison  #}
-        {% if session.nbDispo > 1 %}
-          <p><i class="fa-solid fa-chevron-right"></i><span class="nb-green">{{session.nbDispo}}</span> places restantes</p>
-          {# si la session n'a plus de place  #}
-          {% elseif session.nbDispo ==0 %} 
-          <p><i class="fa-solid fa-chevron-right"></i><span class="nb-green">0</span> place restante</p>
-          {% else %}
-          <p><i class="fa-solid fa-chevron-right"></i><span class="nb-green">1</span> place restante</p>
-          {% endif %}
-          <p>
-            <i class="fa-solid fa-chevron-right"></i>Formateur référent: 
-            {# si admin  #}
-            {% if app.user and "ROLE_ADMIN" in app.user.roles %}
-              <a href="{{ path('show_user', {'id': session.user.id}) }}">{{session.user}}</a>
-            {% else %}
-              <b>{{ session.user }}</b>
+          {% if app.user %}
+            {% if app.user == session.user or "ROLE_ADMIN" in app.user.roles %}
+              <a href="{{ path('edit_session', {'id': session.id}) }}" class="session-edit-pen"><i class="fa-solid fa-pen"></i></a>
             {% endif %}
-          </p>
+          {% endif %}
+          <div class="session-detail-card">
+            
+            {# si la session est verrouillée  #}
+          {% if session.ouvert %}
+            {% else %}
+            <p><i class="fa-solid fa-chevron-right"></i><b>Fermée</b></p>
+          {% endif %}
+          <p><i class="fa-solid fa-chevron-right"></i>Du {{session.dateDebut | date("d.m.Y")}} au {{session.dateFin | date("d.m.Y")}} </p>
+          {# au moins 2 modules, pour la conjugaison  #}
+          {% if session.programmes|length > 1 %}
+            <p><i class="fa-solid fa-chevron-right"></i><span class="nb-green" id="nbModule">{{session.programmes|length}}</span> modules</p>
+            {% else %}
+            <p><i class="fa-solid fa-chevron-right"></i><span class="nb-green">{{session.programmes|length}}</span> module</p>
+          {% endif %} 
+          <p><i class="fa-solid fa-chevron-right"></i>Durée: {{ session.duree }}</p>
+  
+          {# au moins 2 places restantes, pour la conjugaison  #}
+          {% if session.nbDispo > 1 %}
+            <p><i class="fa-solid fa-chevron-right"></i><span class="nb-green">{{session.nbDispo}}</span> places restantes</p>
+            {# si la session n'a plus de place  #}
+            {% elseif session.nbDispo ==0 %} 
+            <p><i class="fa-solid fa-chevron-right"></i><span class="nb-green">0</span> place restante</p>
+            {% else %}
+            <p><i class="fa-solid fa-chevron-right"></i><span class="nb-green">1</span> place restante</p>
+            {% endif %}
+            <p>
+              <i class="fa-solid fa-chevron-right"></i>Formateur référent: 
+              {# si admin  #}
+              {% if app.user and "ROLE_ADMIN" in app.user.roles %}
+                <a href="{{ path('show_user', {'id': session.user.id}) }}">{{session.user}}</a>
+              {% else %}
+                <b>{{ session.user }}</b>
+              {% endif %}
+            </p>
+            {# si personne admin  #}
+            {% if app.user and "ROLE_ADMIN" in app.user.roles %}
+              {% if session.ouvert %}
+                <a href="{{ path('lock_session', {'id': session.id}) }}"><button type="button" class="btn btn-outline-dark">Verrouiller</button></a>
+                {% else %}
+                <a href="{{ path('lock_session', {'id': session.id}) }}"><button type="button" class="btn btn-outline-dark">Déverrouiller</button></a>
+              {% endif %}
+        
+            {% endif %}
+
+          </div>
       </div>
     </div>
-    {# si personne admin  #}
-    {% if app.user and "ROLE_ADMIN" in app.user.roles %}
-      {% if session.ouvert %}
-        <a href="{{ path('lock_session', {'id': session.id}) }}"><button type="button" class="btn btn-info">Verrouiller</button></a>
-        {% else %}
-        <a href="{{ path('lock_session', {'id': session.id}) }}"><button type="button" class="btn btn-info">Déverrouiller</button></a>
-      {% endif %}
-
-    {% endif %}
 
     
     {#  -------------------------------------------------stagiaires inscrits #}
@@ -124,7 +131,7 @@
         <p><a href="{{ path('show_stagiaire', {'id': SNI.id})}}">{{SNI}}</a> 
           {# seulement si la session est ouverte  #}
           {% if app.user and session.ouvert == true %}
-            <a href="{{ path('add_stagiaire_session', {'idStagiaire': SNI.id, 'idSession': session.id}) }}">ajouter</a></p>
+            <a href="{{ path('add_stagiaire_session', {'idStagiaire': SNI.id, 'idSession': session.id}) }}" class="session-add">ajouter</a></p>
           {% endif %}     
       {% endfor %}
     {% endif %}
