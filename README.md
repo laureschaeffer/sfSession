@@ -4,17 +4,28 @@ Projet qui gère des sessions de formations pour les admin d'un centre de format
 
 
 ## Mise en place 
-Lors du téléchargement, en plus d'installer composer, scoop et symfony, mettre cette ligne dans l'invite de commande pour avoir le bon dossier 'vendor'
+
+
+1. **composer** : [composer](https://getcomposer.org/download/) 
+
+2. **scoop** : dans le powershell
+ 
+```
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser  
+```
+
+```
+Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+```
+
+3. **symfony**
+
+```
+scoop install symfony-cli
+```
+
+Une fois le projet téléchargé, mettre cette ligne dans l'invité de commande pour avoir le bon dossier 'vendor'
 
 ``` php
 composer install
 ```
-
-Pour l'installation **'authenticated_api'** le composant Lock doit être installé:
-
-``` php
-composer require symfony/lock
-```
-
-Pour plus d'info  
-[rate-limiter-doc](https://symfony.com/doc/current/rate_limiter.html "rate-limiter-doc")

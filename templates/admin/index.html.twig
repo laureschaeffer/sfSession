@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}Pannel administrateur{% endblock %}
 
 {% block body %}
 
@@ -12,7 +12,6 @@
             <th scope="col">Pseudo</th>
             <th scope="col">Email</th>
             <th scope="col">Role</th>
-            <th scope="col">Changer de rôle</th>
         </tr>
     </thead>
     <tbody>
@@ -24,7 +23,7 @@
                     <td><a href="{{ path('show_user', {'id': user.id}) }}">{{user}}</a></td>
                     <td>{{user.email}}</td>
                     <td>{{user.roleStr}}</td>
-                    <td><a href="{{path('upgrade_role', {'id': user.id})}}">Changer</a></td>     
+                    {# <td><a href="{{path('upgrade_role', {'id': user.id})}}">Changer</a></td>      #}
                 </tr>
             {% endif %}
         {% endfor %}

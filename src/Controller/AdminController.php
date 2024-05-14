@@ -27,25 +27,32 @@ class AdminController extends AbstractController
 
     //change le role d'un user
     #[Route('admin/{id}/upgrade', name: 'upgrade_role')]
-    public function upgradeUser(User $user, EntityManagerInterface $entityManager, Request $request){
+    public function upgradeUser(User $user, EntityManagerInterface $entityManager, Request $request)
+    {
         
-        //utilise la methode get pour récupérer les elements cochés
-        $roles = $request->query->get('roles');
-        var_dump($roles);
-        die;
-        //réinitialise le tableau json et ajoute les roles sélectionnés dans les checkbox
+        //utilise la methode post pour récupérer les elements cochés
+        $roleFormateur = $request->request->get('role_f');
+        $roleAdmin = $request->request->get('role_a');
+        
+        $resultArray = [];
+        //si role admin est coché
+        if($roleAdmin){
+            $resultArray[]= "ROLE_ADMIN";
+        }
+        //si role formateur est coché
+        if($roleFormateur){
+            $resultArray[]= "ROLE_FORMATEUR";
+        }
 
+        $add = $user->setRoles($resultArray); //setter dans la classe User attend un tableau json format ["ROLE_USER", "ROLE_ADMIN"]
 
-
-        // $add = $user->setRoles(["ROLE_USER"]); //setter dans la classe User attend un tableau
-
-        // $entityManager->persist($add); //prepare
-        // $entityManager->flush(); //execute
+        $entityManager->persist($add); //prepare
+        $entityManager->flush(); //execute
         
         
-        //redirection
-        // $this->addFlash('success', 'Role changé');
-        // return $this->redirectToRoute('app_admin');
+        // redirection
+        $this->addFlash('success', 'Role changé');
+        return $this->redirectToRoute('show_user', ['id'=>$user->getId()]);
     }
 
     //detail d'un user avec ses roles et les sessions où il est formateur référent, s'il y en a

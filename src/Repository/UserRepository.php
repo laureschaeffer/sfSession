@@ -38,6 +38,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
+    //recherche en fonction d'un mot clé dans les enregistrements dans la bdd
+    public function findByWord($word) {
+        $em = $this->getEntityManager();
+
+        $sub = $em->createQueryBuilder();
+
+        $qb = $sub;
+
+        //inner join avec formation pour chercher par le nom de la formation 
+        $qb->select('a')
+            ->from('App\Entity\User', 'a')
+            ->where('a.pseudo LIKE :word')
+            ->setParameter('word', '%'.$word.'%');
+
+        $query = $sub->getQuery();
+        return $query->getResult();
+    }
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */

@@ -39,18 +39,20 @@
         {% set checkAdm = '' %}
     {% endif %}
 
-    <form action="{{ path('upgrade_role', {'id': user.id})}}" method="get">
+
+    <form action="{{ path('upgrade_role', {'id': user.id})}}" method="post">
         <p>
-            <input type="checkbox" id="formateur" name="roles[]" value="ROLE_FORMATEUR" {{checkForma}} />
+            <input type="checkbox" id="formateur" name="role_f" value="ROLE_FORMATEUR" {{checkForma}} />
             <label for="formateur">Formateur</label>
         </p>
         <p>
-            <input type="checkbox" id="admin" name="roles[]" value="ROLE_ADMIN" {{checkAdm}}/>
+            <input type="checkbox" id="admin" name="role_a" value="ROLE_ADMIN" {{checkAdm}}/>
             <label for="admin">Admin</label>
         </p>
         <button type="submit" name="submit">Valider</button>
     </form>
 </section>
+
 
 
 

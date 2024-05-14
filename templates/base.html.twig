@@ -40,13 +40,13 @@
                         <hr>
                         {# si connecté et si admin  #}
                         {% if app.user and "ROLE_ADMIN" in app.user.roles %}
-                        <li><i class="fa-solid fa-chart-line"></i><a href="{{ path('app_admin') }}">Pannel admin</a></li>
+                        <li><a href="{{ path('app_admin') }}">Pannel admin</a><i class="fa-solid fa-chart-line"></i></li>
                         <hr>
                         {% endif %}
 
                         {# si connecté  #}
                         {% if app.user %}
-                        <li><i class="fa-solid fa-arrow-right-from-bracket"></i><a href="{{ path('app_logout') }}">Déconnecter</a></li>
+                        <li><a href="{{ path('app_logout') }}">Déconnecter</a><i class="fa-solid fa-arrow-right-from-bracket"></i></li>
                         {% endif %}
                     </ul>
                 </nav>

@@ -43,6 +43,23 @@
     {% endfor %}
 {% endif %}
 
+{# liste des user dispo pour les admin  #}
+{% if app.user and "ROLE_ADMIN" in app.user.roles %}
+    
+    {% if user %}
+        <h2>Dans les utilisateurs</h2>
+        {% for u in user %}  
+            <p><a href="{{ path('show_user', {'id': u.id}) }}">{{u}}</a> </p>
+        {% endfor %}   
+    {% endif %}
+
+    {% if session == null and categorie == null and formation == null and stagiaire == null and module == null and user == null %}
+        <p>Aucun résultat</p> 
+    {% endif %}
+
+{% endif %}
+
+
 {% if session == null and categorie == null and formation == null and stagiaire == null and module == null %}
     <p>Aucun résultat</p> 
 {% endif %}

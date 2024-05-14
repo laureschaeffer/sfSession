@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 INSERT IGNORE INTO `user` (`id`, `email`, `roles`, `password`, `pseudo`) VALUES
 	(1, 'laure@exemple.fr', '["ROLE_ADMIN", "ROLE_FORMATEUR"]', '$2y$13$.zhdVAeU4IlH0wAkrz860O3KqiDCPte/XMCyO.RfHXt7zrIyVYzxW', 'laure'),
 	(2, 'person@test.fr', '[]', '$2y$13$yhw0KMrEf5JO5x6S6qSKk.pRGZuWbbn02w05kLfG6wtwOtT32ARTe', 'person'),
-	(4, 'sandra@exemple.fr', '["ROLE_USER"]', '$2y$13$CmWCDR9fDKymS.Lr3ENuae.wLkWe96ZX/M9P61BCRyLeMXFOgIIzi', 'sandra'),
+	(4, 'sandra@exemple.fr', '[]', '$2y$13$CmWCDR9fDKymS.Lr3ENuae.wLkWe96ZX/M9P61BCRyLeMXFOgIIzi', 'sandra'),
 	(5, 'micka_elan@exemple.com', '["ROLE_FORMATEUR"]', '$2y$13$MlG40/rVO/221IChxQsBUetectn8S3K0leZPV8ekOP2oym8T9n70S', 'mickael'),
 	(8, 'antoine@exemple.fr', '[]', '$2y$13$cxh91YGHiQft9fharRhU3ettqPhPu5eM20/tqBBdOPk3lKGrI6hRK', 'antoine');
 
