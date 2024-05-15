@@ -31,39 +31,26 @@ dureeElement.forEach(duree => {
 });
 
 //calcul du nombre de jours total en additionnant chaque duree de programme
-let nbJourTotal = 0;
-durees.forEach(d => {
-    nbJourTotal += Number(d);
-});
-
+// let nbJourTotal = 0;
+// durees.forEach(d => {
+//     nbJourTotal += Number(d);
+// });
 //je divise le nb de jours du module par le nb de jour total pour obtenir un tableau contenant chaque coefficient associé à un module
-let coeffs = [];
-durees.forEach(coeff => {
-    coeffs.push(Math.round((coeff / nbJourTotal)*100));
-});
-
-const  x = +coeffs.join("");
-
-console.log(x)
-// console.log(coeffs)
-
-// coeffs.forEach(coeff => {
-//     console.log(coeff);
-// })
+// let coeffs = [];
+// durees.forEach(coeff => {
+//     coeffs.push(Math.round((coeff / nbJourTotal)*100));
+// });
 
 //diagramme
 
 new Chart(ctx, {
   type: 'doughnut',
   data: {
-    labels: [
-      'Module',
-      'Module',
-      'Module'
-    ],
+    labels: modules,
     datasets: [{
     //   label: 'My First Dataset',
-      data: [1, 1, 1],
+      data: durees,
+      // data: [1, 1, 1],
       backgroundColor: [
         'rgb(255, 99, 132)',
         'rgb(54, 162, 235)',
