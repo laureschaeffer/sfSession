@@ -9,33 +9,37 @@
 <section id="modules">
     <h2>Liste des modules</h2>
 
-    <table class="table table-striped">
-        <thead>
-          <tr class="table-info">
-            <th scope="col">#</th>
-            <th scope="col">Module</th>
-            <th scope="col">Categorie</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-    {% set i = 1 %}
-    {% for module in modules %}
-    <tr>
-        <td>{{i}} </td>
-        {% set i = i + 1 %}
-        <td>{{ module }} </td>
-        <td>{{ module.categorie }}</td>
-        <td><a href="{{ path('edit_module', {'id': module.id}) }}"><i class="fa-solid fa-pen"></i></a>
-          {# si connecté et si admin  #}
-          {% if app.user and "ROLE_ADMIN" in app.user.roles %}
-            <a href="{{ path('delete_module', {'id': module.id}) }}"><i class="fa-solid fa-x"></i></a>
-          {% endif %}</td>
-    
-    </tr>
-    {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive">
+
+      <table class="table table-striped">
+          <thead>
+            <tr class="table-info">
+              <th scope="col">#</th>
+              <th scope="col">Module</th>
+              <th scope="col">Categorie</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+      {% set i = 1 %}
+      {% for module in modules %}
+      <tr>
+          <td>{{i}} </td>
+          {% set i = i + 1 %}
+          <td>{{ module }} </td>
+          <td>{{ module.categorie }}</td>
+          <td><a href="{{ path('edit_module', {'id': module.id}) }}"><i class="fa-solid fa-pen"></i></a>
+            {# si connecté et si admin  #}
+            {% if app.user and "ROLE_ADMIN" in app.user.roles %}
+              <a href="{{ path('delete_module', {'id': module.id}) }}"><i class="fa-solid fa-x"></i></a>
+            {% endif %}</td>
+      
+      </tr>
+      {% endfor %}
+          </tbody>
+      </table>
+
+    </div>
 
     {% if app.user %}
     <div class="btn-container">

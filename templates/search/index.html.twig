@@ -3,66 +3,71 @@
 {% block title %}Résultat des recherches{% endblock %}
 
 {% block body %}
-<h2>Résultat de votre recherche "{{word}}"</h2>
 
+<section id="resultat">
 
-{# recupere tous les tableaux  #}
-{% if session %}
-    <h2>Dans les sessions</h2>
-    {% for s in session %}
-        <p><a href="{{ path('show_session', {'id' : s.id}) }}">{{s}}</a> ({{s.dateDebut  | date("d.m.Y")}} - {{s.dateFin | date("d.m.Y")}}  ) </p>   
-    {% endfor %}
-{% endif %}
-
-{% if categorie %}
-    <h2>Dans les categories</h2>
-    {% for c in categorie %}
-        <p>{{c}}</p>   
-    {% endfor %}
-{% endif %}
-
-{% if formation %}
-    <h2>Dans les formations</h2>
-    {% for f in formation %}
-        <p>{{f}}</p>   
-    {% endfor %}
-{% endif %}
-
-
-{% if stagiaire %}
-    <h2>Dans les stagiaires</h2>
-    {% for st in stagiaire %}
-        <p><a href=" {{ path('show_stagiaire', {'id': st.id})}}  ">{{ st }}</a></p>  
-    {% endfor %}
-{% endif %}
-
-{% if module %}
-    <h2>Dans les modules</h2>
-    {% for m in module %}
-        <p>{{m}}</p>   
-    {% endfor %}
-{% endif %}
-
-{# liste des user dispo pour les admin  #}
-{% if app.user and "ROLE_ADMIN" in app.user.roles %}
+    <h2>Résultat de votre recherche "{{word}}"</h2>
     
-    {% if user %}
-        <h2>Dans les utilisateurs</h2>
-        {% for u in user %}  
-            <p><a href="{{ path('show_user', {'id': u.id}) }}">{{u}}</a> </p>
-        {% endfor %}   
+    
+    {# recupere tous les tableaux  #}
+    {% if session %}
+        <h2>Dans les sessions</h2>
+        {% for s in session %}
+            <p><a href="{{ path('show_session', {'id' : s.id}) }}">{{s}}</a> ({{s.dateDebut  | date("d.m.Y")}} - {{s.dateFin | date("d.m.Y")}}  ) </p>   
+        {% endfor %}
     {% endif %}
-
-    {% if session == null and categorie == null and formation == null and stagiaire == null and module == null and user == null %}
+    
+    {% if categorie %}
+        <h2>Dans les categories</h2>
+        {% for c in categorie %}
+            <p>{{c}}</p>   
+        {% endfor %}
+    {% endif %}
+    
+    {% if formation %}
+        <h2>Dans les formations</h2>
+        {% for f in formation %}
+            <p>{{f}}</p>   
+        {% endfor %}
+    {% endif %}
+    
+    
+    {% if stagiaire %}
+        <h2>Dans les stagiaires</h2>
+        {% for st in stagiaire %}
+            <p><a href=" {{ path('show_stagiaire', {'id': st.id})}}  ">{{ st }}</a></p>  
+        {% endfor %}
+    {% endif %}
+    
+    {% if module %}
+        <h2>Dans les modules</h2>
+        {% for m in module %}
+            <p>{{m}}</p>   
+        {% endfor %}
+    {% endif %}
+    
+    {# liste des user dispo pour les admin  #}
+    {% if app.user and "ROLE_ADMIN" in app.user.roles %}
+        
+        {% if user %}
+            <h2>Dans les utilisateurs</h2>
+            {% for u in user %}  
+                <p><a href="{{ path('show_user', {'id': u.id}) }}">{{u}}</a> </p>
+            {% endfor %}   
+        {% endif %}
+    
+        {% if session == null and categorie == null and formation == null and stagiaire == null and module == null and user == null %}
+            <p>Aucun résultat</p> 
+        {% endif %}
+    
+    {% endif %}
+    
+    
+    {% if session == null and categorie == null and formation == null and stagiaire == null and module == null %}
         <p>Aucun résultat</p> 
     {% endif %}
 
-{% endif %}
-
-
-{% if session == null and categorie == null and formation == null and stagiaire == null and module == null %}
-    <p>Aucun résultat</p> 
-{% endif %}
+</section>
 
 
 

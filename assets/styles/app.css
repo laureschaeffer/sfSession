@@ -14,6 +14,9 @@
     --border-size: 10px; 
     --btn-color: #034748;
 
+    --escape-nav-laptop: 200px;
+    --escape-nav-mobile: 150px;
+
     --hover-transition: 0.5s;
     --hover-opacity: 0.7;
 }
@@ -24,13 +27,17 @@
     min-height: 100vh;
 }
 
-#side-nav{
+.nav-closed{
     display: flex;
-    background-color: #456990;
+    height: 100vh;
+    width: var(--escape-nav-laptop);
     flex-direction: column;
     position: fixed;
-    height: 100vh;
-    /* width: auto; */
+}
+
+#side-nav{
+    background-color: #456990;
+    top: 0;
 
 }
 
@@ -51,10 +58,14 @@
 }
 
 #top-nav{
-    margin-left: 11vw;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    padding-left: var(--escape-nav-laptop);
+}
+
+.icon{
+    display: none;
 }
 
 .nav-profil a{
@@ -68,15 +79,23 @@
 
 /* mainpage avec margin de la taille de la side-nav, pour decaller  */
 #main-page{
-    margin-left: 10vw;
+    padding-left: var(--escape-nav-laptop);
 }
+
+/* -----barre de recherche  */
+.search{
+    padding: 5px 10px;
+    border-radius: 25px;
+    outline: none;
+}
+
 
 
 /* ---------------general */
 
 /* margin de toutes les pages  */
 
-#sessions, #session-detail, #formations{
+#sessions, #session-detail, #formations, #resultat{
     margin: var(--main--espace);
 }
 
@@ -189,4 +208,62 @@ h2{
     padding: var(--main--espace);
     border: solid 2px hsl(210deg 11% 15% / 25%);
     border-radius: var(--border-size);
+}
+
+/* ===============================================VERSION MOBILE ================================= */
+@media screen and (max-width: 768px){
+
+    /* ------------------------------------templates----------------------------- */
+    .icon{
+        display: block;
+    }
+
+    #top-nav{
+        flex-direction: column;
+        height: var(--escape-nav-mobile);
+    }
+
+    #top-nav form{
+        padding: 10px 0;
+    }
+
+    .icon{
+        font-size: 30px;
+        color: black;
+    }
+
+    /* -----nav fermee */
+    .nav-closed{
+        display: none;
+    }
+
+    /* -----nav ouverte  */
+
+
+    .navbarResponsive{
+        display: flex;
+        position: relative;
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        background-color: #fff;
+        border-radius: 3px;
+    }
+
+    .navbarResponsive .icon{
+        position: absolute;
+        top: 0;
+        right: 0;
+        float: right;
+        color: #010101;
+        font-size: 30px;
+
+    }
+
+/* ---------------general */
+
+    #main-page{
+        padding-left: 0;
+    }
+
 }

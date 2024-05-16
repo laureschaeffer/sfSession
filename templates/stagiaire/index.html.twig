@@ -10,33 +10,37 @@
 
   <h2>Liste des stagiaires</h2>
   
-  <table class="table table-striped">
-      <thead>
-        <tr class="table-dark">
-          <th scope="col">Prénom</th>
-          <th scope="col">Nom</th>
-          <th scope="col">Téléphone</th>
-          <th scope="col">Ville</th>
-        </tr>
-      </thead>
-      <tbody>
-          
-          {% for stagiaire in stagiaires %}
-          <tr>
-              <td><a href=" {{ path('show_stagiaire', {'id': stagiaire.id})}}  ">{{ stagiaire.prenom }}</a></td>
-              <td>{{ stagiaire.nom }}</td>
-              <td>{{ stagiaire.telephone }}</td>
-              <td>{{ stagiaire.ville }}
-                {# si connecté et admin  #}
-                {% if app.user and "ROLE_ADMIN" in app.user.roles %}
-                  <a href="{{ path('edit_stagiaire', {'id': stagiaire.id}) }}">Modifier</a>
-                {% endif %}
-            </td>
+  <div class="table-responsive">
+
+    <table class="table table-striped">
+        <thead>
+          <tr class="table-dark">
+            <th scope="col">Prénom</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Téléphone</th>
+            <th scope="col">Ville</th>
           </tr>
-          
-          {% endfor %}
-      </tbody>
-  </table>
+        </thead>
+        <tbody>
+            
+            {% for stagiaire in stagiaires %}
+            <tr>
+                <td><a href=" {{ path('show_stagiaire', {'id': stagiaire.id})}}  ">{{ stagiaire.prenom }}</a></td>
+                <td>{{ stagiaire.nom }}</td>
+                <td>{{ stagiaire.telephone }}</td>
+                <td>{{ stagiaire.ville }}
+                  {# si connecté et admin  #}
+                  {% if app.user and "ROLE_ADMIN" in app.user.roles %}
+                    <a href="{{ path('edit_stagiaire', {'id': stagiaire.id}) }}">Modifier</a>
+                  {% endif %}
+              </td>
+            </tr>
+            
+            {% endfor %}
+        </tbody>
+    </table>
+
+  </div>
 
   {% if app.user %}
   <div class="btn-container">

@@ -12,21 +12,26 @@
 
     <h3>Sessions liées à la formation</h3>
     {# sessions liés à la formation  #}
-    <table class="table table-striped">
-        <thead>
-          <tr class="table-danger">
-            <th scope="col">Session</th>
-            <th scope="col">Début</th>
-            <th scope="col">Fin</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for session in formation.sessions %}
-                <tr>
-                    <td><a href="{{ path('show_session', {'id': session.id}) }}" class="section-detail">{{session}}</a></td>
-                    <td>{{ session.dateDebut | date("d.m.Y") }}</td>
-                    <td>{{ session.dateFin | date("d.m.Y") }}</td>
-                </tr>
-            {% endfor %}
+    <div class="table-responsive">
+
+      <table class="table table-striped">
+          <thead>
+            <tr class="table-danger">
+              <th scope="col">Session</th>
+              <th scope="col">Début</th>
+              <th scope="col">Fin</th>
+            </tr>
+          </thead>
+          <tbody>
+              {% for session in formation.sessions %}
+                  <tr>
+                      <td><a href="{{ path('show_session', {'id': session.id}) }}" class="section-detail">{{session}}</a></td>
+                      <td>{{ session.dateDebut | date("d.m.Y") }}</td>
+                      <td>{{ session.dateFin | date("d.m.Y") }}</td>
+                  </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+    </div>
     
 {% endblock %}

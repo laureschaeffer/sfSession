@@ -9,35 +9,39 @@
 <section id="categories">
     <h2>Liste des catégories</h2>
 
-    <table class="table table-striped">
-        <thead>
-          <tr class="table-success">
-            <th scope="col">#</th>
-            <th scope="col">Catégorie</th>    
-          </tr>
-        </thead>
-        <tbody>
-    {% set i = 1 %}
-    {% for categorie in categories %}
-            <tr>
-                <td>{{i}} </td>
-                {% set i = i + 1 %}
-                <td>{{ categorie }}
-                  {# si connecté et admin  #}
-                  {% if app.user and "ROLE_ADMIN" in app.user.roles %}
-                    <a href="{{ path('delete_categorie', {'id': categorie.id}) }}" class="delete-categorie"><i class="fa-solid fa-x"></i></a>
-                  {% endif %}
-                </td>
-            </tr>
-    {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-responsive">
 
-    {% if app.user %}
-    <div class="btn-container">
-      <a class="add-btn" href="{{ path('new_categorie')}}"><button>Créer une catégorie</button></a>
+      <table class="table table-striped">
+          <thead>
+            <tr class="table-success">
+              <th scope="col">#</th>
+              <th scope="col">Catégorie</th>    
+            </tr>
+          </thead>
+          <tbody>
+      {% set i = 1 %}
+      {% for categorie in categories %}
+              <tr>
+                  <td>{{i}} </td>
+                  {% set i = i + 1 %}
+                  <td>{{ categorie }}
+                    {# si connecté et admin  #}
+                    {% if app.user and "ROLE_ADMIN" in app.user.roles %}
+                      <a href="{{ path('delete_categorie', {'id': categorie.id}) }}" class="delete-categorie"><i class="fa-solid fa-x"></i></a>
+                    {% endif %}
+                  </td>
+              </tr>
+      {% endfor %}
+          </tbody>
+      </table>
     </div>
-    {% endif %}
-</section>
+  
+      {% if app.user %}
+      <div class="btn-container">
+        <a class="add-btn" href="{{ path('new_categorie')}}"><button>Créer une catégorie</button></a>
+      </div>
+      {% endif %}
+      
+  </section>
 
 {% endblock %}

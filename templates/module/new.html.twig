@@ -20,19 +20,23 @@
 {# {{ form(formAddModule) }} #}
 
 {# possibilité de detailler #}
+<section class="sessions-form">
 
-{{ form_start(formAddModule) }}
+   {{ form_start(formAddModule) }}
+   
+        {{ form_row(formAddModule.nom) }}
+        {{ form_row(formAddModule.categorie) }}
+   
+        <div class="btn-container">
+         <div class="add-btn">
+            {{ form_row(formAddModule.Valider) }}
+   
+         </div>
+        </div>
+   {{ form_end(formAddModule) }}
 
-     {{ form_row(formAddModule.nom) }}
-     {{ form_row(formAddModule.categorie) }}
+</section>
 
-     <div class="btn-container">
-      <div class="add-btn">
-         {{ form_row(formAddModule.Valider) }}
-
-      </div>
-     </div>
-{{ form_end(formAddModule) }}
 
 
 {% endblock %}

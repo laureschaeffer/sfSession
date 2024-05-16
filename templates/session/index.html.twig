@@ -9,7 +9,8 @@
   <h2>Liste des sessions de formation</h2>
   {# ----------------------------------------------sessions en cours---------------------------- #}
   <h3>En cours</h3>
-  <table class="table table-striped">
+  <div class="table-responsive">
+    <table class="table table-striped">
       <thead>
         <tr class="table-danger">
           <th scope="col">Formation</th>
@@ -47,8 +48,56 @@
   {% endfor %}
       </tbody>
   </table>
+  </div>
     {# ----------------------------------------------sessions à venir---------------------------- #}
     <h3>A venir</h3>
+    <div class="table-responsive">
+
+      <table class="table table-striped">
+        <thead>
+          <tr class="table-danger">
+            <th scope="col">Formation</th>
+            <th scope="col">Début</th>
+            <th scope="col">Fin</th>
+            <th scope="col">Places totales</th>
+            <th scope="col">Places prises</th>
+            <th scope="col">Places restantes</th>
+          </tr>
+        </thead>
+        <tbody>
+    {% for s in nextSessions %}
+      {% if s.ouvert == true %}
+        <tr>
+          {% set lock = "" %}
+      {% else %}
+        <tr class="table-secondary">
+          {% set lock = "(verrouillé)" %}
+      {% endif %}
+            
+                <td><a href="{{ path('show_session', {'id': s.id}) }}" class="section-detail">{{s}}</a> {{lock}}</td>
+                <td>{{ s.dateDebut | date("d.m.Y") }}</td>
+                <td>{{ s.dateFin | date("d.m.Y") }}</td>
+                <td>{{ s.nbPlace }}</td>
+                <td>{{s.nbInscription}}</td>
+                <td>{{s.nbDispo}}
+                  {# si connecté, admin ou personne qui a créée la session #}
+                  {% if app.user %}
+                    {% if "ROLE_ADMIN" in app.user.roles or app.user == s.user %}
+                      <a href="{{ path('edit_session', {'id': s.id}) }}"><i class="fa-solid fa-pen"></i></a>
+                    {% endif %}
+                  {% endif %}
+                </td>
+            </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+    </div>
+
+  {# ----------------------------------------------sessions finies---------------------------- #}
+  <h3>Finies</h3>
+  <div class="table-responsive">
+
     <table class="table table-striped">
       <thead>
         <tr class="table-danger">
@@ -61,8 +110,8 @@
         </tr>
       </thead>
       <tbody>
-  {% for s in nextSessions %}
-    {% if s.ouvert == true %}
+  {% for c in finishedSessions %}
+    {% if c.ouvert == true %}
       <tr>
         {% set lock = "" %}
     {% else %}
@@ -70,16 +119,16 @@
         {% set lock = "(verrouillé)" %}
     {% endif %}
           
-              <td><a href="{{ path('show_session', {'id': s.id}) }}" class="section-detail">{{s}}</a> {{lock}}</td>
-              <td>{{ s.dateDebut | date("d.m.Y") }}</td>
-              <td>{{ s.dateFin | date("d.m.Y") }}</td>
-              <td>{{ s.nbPlace }}</td>
-              <td>{{s.nbInscription}}</td>
-              <td>{{s.nbDispo}}
+              <td><a href="{{ path('show_session', {'id': c.id}) }}" class="section-detail">{{c}}</a> {{lock}}</td>
+              <td>{{ c.dateDebut | date("d.m.Y") }}</td>
+              <td>{{ c.dateFin | date("d.m.Y") }}</td>
+              <td>{{ c.nbPlace }}</td>
+              <td>{{c.nbInscription}}</td>
+              <td>{{c.nbDispo}}
                 {# si connecté, admin ou personne qui a créée la session #}
                 {% if app.user %}
-                  {% if "ROLE_ADMIN" in app.user.roles or app.user == s.user %}
-                    <a href="{{ path('edit_session', {'id': s.id}) }}"><i class="fa-solid fa-pen"></i></a>
+                  {% if "ROLE_ADMIN" in app.user.roles or app.user == c.user %}
+                    <a href="{{ path('edit_session', {'id': c.id}) }}"><i class="fa-solid fa-pen"></i></a>
                   {% endif %}
                 {% endif %}
               </td>
@@ -88,46 +137,7 @@
       </tbody>
   </table>
 
-  {# ----------------------------------------------sessions finies---------------------------- #}
-  <h3>Finies</h3>
-  <table class="table table-striped">
-    <thead>
-      <tr class="table-danger">
-        <th scope="col">Formation</th>
-        <th scope="col">Début</th>
-        <th scope="col">Fin</th>
-        <th scope="col">Places totales</th>
-        <th scope="col">Places prises</th>
-        <th scope="col">Places restantes</th>
-      </tr>
-    </thead>
-    <tbody>
-{% for c in finishedSessions %}
-  {% if c.ouvert == true %}
-    <tr>
-      {% set lock = "" %}
-  {% else %}
-    <tr class="table-secondary">
-      {% set lock = "(verrouillé)" %}
-  {% endif %}
-        
-            <td><a href="{{ path('show_session', {'id': c.id}) }}" class="section-detail">{{c}}</a> {{lock}}</td>
-            <td>{{ c.dateDebut | date("d.m.Y") }}</td>
-            <td>{{ c.dateFin | date("d.m.Y") }}</td>
-            <td>{{ c.nbPlace }}</td>
-            <td>{{c.nbInscription}}</td>
-            <td>{{c.nbDispo}}
-              {# si connecté, admin ou personne qui a créée la session #}
-              {% if app.user %}
-                {% if "ROLE_ADMIN" in app.user.roles or app.user == c.user %}
-                  <a href="{{ path('edit_session', {'id': c.id}) }}"><i class="fa-solid fa-pen"></i></a>
-                {% endif %}
-              {% endif %}
-            </td>
-        </tr>
-{% endfor %}
-    </tbody>
-</table>
+</div>
 
 
   {% if app.user %}

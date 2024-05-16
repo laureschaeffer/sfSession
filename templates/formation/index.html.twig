@@ -9,26 +9,29 @@
 <section id="formations">
 
   <h2>Liste des formations</h2>
-  
-  <table class="table table-striped">
-      <thead>
-        <tr class="table-primary">
-          <th scope="col">#</th>
-          <th scope="col">Formation</th>
-  
-        </tr>
-      </thead>
-      <tbody>
-  {% set i = 1 %}
-  {% for formation in formations %}
-  <tr>
-      <td>{{i}} </td>
-      {% set i = i + 1 %}
-              <td><a href="{{ path('show_formation', {'id': formation.id}) }}">{{formation}}</a></td>
+  <div class="table-responsive">
+
+    <table class="table table-striped">
+        <thead>
+          <tr class="table-primary">
+            <th scope="col">#</th>
+            <th scope="col">Formation</th>
+    
           </tr>
-  {% endfor %}
-      </tbody>
-  </table>
+        </thead>
+        <tbody>
+    {% set i = 1 %}
+    {% for formation in formations %}
+    <tr>
+        <td>{{i}} </td>
+        {% set i = i + 1 %}
+                <td><a href="{{ path('show_formation', {'id': formation.id}) }}">{{formation}}</a></td>
+            </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+  </div>
 
   {% if app.user %}
   <div class="btn-container">

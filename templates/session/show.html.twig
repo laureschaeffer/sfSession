@@ -6,11 +6,14 @@
 {% block title %}Détail d'une session{% endblock %}
 
 {% block body %}
-
 <section id="session-detail">
-    <h2>{{ session}}</h2>
-    <p>Détail de la session</p>
-    <div id="session-info">
+  <h2>{{ session}}</h2>
+  <p>Détail de la session</p>
+  <div id="session-info">
+      {% if session.programmes is empty %}
+      <p>Il n'y a pas encore de programme pour cette session.</p>
+      {% else %}
+      
       {# -----------------------------------------diagramme avec chart.js  #}
       <div>
         <canvas id="myChart"></canvas>
@@ -26,6 +29,9 @@
         </p>
         {% endfor %}
       </div>
+      
+
+      {% endif %}
       {# ------------------------------------------------- infos  #}
       <div class="session-info-general">
           {# si personne connectée est la personne qui a créé la session ou admin #}
@@ -88,39 +94,43 @@
     {% if session.inscription is empty %}
       <p>Aucun stagiaire inscrit</p>
       {% else %}
-      <table class="table table-striped">
-          <thead>
-            <tr class="table-dark">
-              <th scope="col">#</th>
-              <th scope="col">Prénom</th>
-              <th scope="col">Nom</th>
-              <th scope="col">Téléphone</th>
-              <th scope="col">Ville</th>
-              <th scope="col"></th>
+      <div class="table-responsive">
+
+        <table class="table table-striped">
+            <thead>
+              <tr class="table-dark">
+                <th scope="col">#</th>
+                <th scope="col">Prénom</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Téléphone</th>
+                <th scope="col">Ville</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              {# index  #}
+              {% set i = 0 %}
+            {% for stagiaire in session.inscription %}
+              {% set i = i + 1 %}
+            <tr>
+                <td>{{i}}</td>
+                <td><a href=" {{ path('show_stagiaire', {'id': stagiaire.id})}}  ">{{ stagiaire.prenom }}</a></td>
+                <td>{{stagiaire.nom}}</td>
+                <td>{{stagiaire.telephone}}</td>
+                <td>{{stagiaire.ville}}</td>
+                <td>
+                  {# seulement si la session est ouverte  #}
+                  {% if app.user and session.ouvert == true %}
+                    <a href="{{ path('remove_stagiaire_session', {'idStagiaire': stagiaire.id, 'idSession': session.id}) }}"><i class="fa-solid fa-xmark"></i></a>
+                  {% endif %}
+                </td>
             </tr>
-          </thead>
-          <tbody>
-            {# index  #}
-            {% set i = 0 %}
-          {% for stagiaire in session.inscription %}
-            {% set i = i + 1 %}
-          <tr>
-              <td>{{i}}</td>
-              <td><a href=" {{ path('show_stagiaire', {'id': stagiaire.id})}}  ">{{ stagiaire.prenom }}</a></td>
-              <td>{{stagiaire.nom}}</td>
-              <td>{{stagiaire.telephone}}</td>
-              <td>{{stagiaire.ville}}</td>
-              <td>
-                {# seulement si la session est ouverte  #}
-                {% if app.user and session.ouvert == true %}
-                  <a href="{{ path('remove_stagiaire_session', {'idStagiaire': stagiaire.id, 'idSession': session.id}) }}"><i class="fa-solid fa-xmark"></i></a>
-                {% endif %}
-              </td>
-          </tr>
-          
-      {% endfor %}
-          </tbody>
-      </table>
+            
+        {% endfor %}
+            </tbody>
+        </table>
+
+      </div>
 
     {% endif %}
     {% if session.nbDispo > 0 %}

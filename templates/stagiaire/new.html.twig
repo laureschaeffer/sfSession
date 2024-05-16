@@ -21,37 +21,45 @@
 
 {# possibilité de detailler #}
 
-{{ form_start(formAddStagiaire) }}
-    
+<section class="sessions-form">
 
-<div class="row">
-        <div class="col-sm">
-            {{ form_row(formAddStagiaire.prenom) }}
-        </div>
-        <div class="col-sm">
-            {{ form_row(formAddStagiaire.nom) }}
-        </div>
-    </div>
+    {{ form_start(formAddStagiaire) }}
+        
+    
     <div class="row">
-        <div class="col-sm">
-            {{ form_row(formAddStagiaire.sexe) }}
+            <div class="col-sm">
+                {{ form_row(formAddStagiaire.prenom) }}
+            </div>
+            <div class="col-sm">
+                {{ form_row(formAddStagiaire.nom) }}
+            </div>
         </div>
-        <div class="col-sm">
-            {{ form_row(formAddStagiaire.ville) }}
+        <div class="row">
+            <div class="col-sm">
+                {{ form_row(formAddStagiaire.sexe) }}
+            </div>
+            <div class="col-sm">
+                {{ form_row(formAddStagiaire.ville) }}
+            </div>
         </div>
+        <div class="row">
+            <div class="col-sm">
+                {{ form_row(formAddStagiaire.dateNaissance) }}
+            </div>
+            <div class="col-sm">
+                {{ form_row(formAddStagiaire.telephone) }}
+            </div>
+        </div>
+        {{ form_row(formAddStagiaire.mail) }}
+        <div class="btn-container">
+            <div class="add-btn">
+                {{ form_row(formAddStagiaire.Valider) }}
+            </div>
+        </div>   
     </div>
-    <div class="row">
-        <div class="col-sm">
-            {{ form_row(formAddStagiaire.dateNaissance) }}
-        </div>
-        <div class="col-sm">
-            {{ form_row(formAddStagiaire.telephone) }}
-        </div>
-    </div>
-    {{ form_row(formAddStagiaire.mail) }}
-    {{ form_row(formAddStagiaire.Valider) }}
-</div>
-    {{ form_end(formAddStagiaire) }}
+        {{ form_end(formAddStagiaire) }}
+
+</section>
 
 
 {% endblock %}
