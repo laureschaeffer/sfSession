@@ -4,10 +4,10 @@ Projet qui gère des sessions de formations pour les admin d'un centre de format
 
 ## Rendu
 
-![Liste des sessions](public\img\screen1.png)
+![Liste des sessions](public/img/screen1.png)
 
 
-![Détail d'une session](public\img\screen2.png)
+![Détail d'une session](public/img/screen2.png)
 
 
 ### Mise en place 
