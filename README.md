@@ -2,8 +2,15 @@
 
 Projet qui gère des sessions de formations pour les admin d'un centre de formation
 
+## Rendu
 
-## Mise en place 
+![Liste des sessions](public\img\screen1.png)
+
+
+![Détail d'une session](public\img\screen2.png)
+
+
+### Mise en place 
 
 
 1. **composer** : [composer](https://getcomposer.org/download/) 
